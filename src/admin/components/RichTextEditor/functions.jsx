@@ -24,7 +24,7 @@ export const CustomEditor = {
   //! ITALIC
   isItalicMarkActive(editor) {
     const marks = Editor.marks(editor);
-    return marks ? marks.bold === true : false;
+    return marks ? marks.italic === true : false;
   },
   toggleItalicMark(editor) {
     const isActive = CustomEditor.isItalicMarkActive(editor);
