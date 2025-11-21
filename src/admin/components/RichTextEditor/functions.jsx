@@ -1,4 +1,4 @@
-import { Editor } from "slate";
+import { Editor, Transforms, Element } from "slate";
 
 /* #region toggle functions */
 //* toggle functions
@@ -74,6 +74,22 @@ export const keyboardShortcuts = (event, editor) => {
       event.preventDefault();
       CustomEditor.toggleUnderlineMark(editor);
       break;
+    }
+
+    // unordered list
+    case "-": {
+      event.preventDefault();
+      // Determine whether any of the currently selected blocks are code blocks.
+            const [match] = Editor.nodes(editor, {
+              match: n => n.type === 'listitem',
+            })
+            // Toggle the block type depending on whether there's already a match.
+            Transforms.setNodes(
+              editor,
+              { type: match ? 'paragraph' : 'listitem' },
+              { match: n => Element.isElement(n) && Editor.isBlock(editor, n) }
+            )
+
     }
   }
 }; // END keyboard shortcuts

@@ -1,5 +1,5 @@
 // Import React dependencies.
-import { useState } from "react";
+import { useState, useCallback } from "react";
 // Import the Slate editor factory.
 import { createEditor } from "slate";
 import { updateData } from "../../../api/APIfunctions";
@@ -21,6 +21,18 @@ const RichTextEditor = (iV) => {
       children: [{ text: "A line of text in a paragraph." }],
     },
   ];
+
+  //* Define a rendering function based on the element passed to `props`. We use
+  // `useCallback` here to memoize the function for subsequent renders.
+  const renderElement = useCallback(props => {
+    switch (props.element.type) {
+      case 'listitem':
+        return <ol><ListItemElement {...props} /></ol>
+      default:
+        return <DefaultElement {...props} />
+    }
+  }, [])
+
 
   return (
     <>
@@ -85,6 +97,7 @@ const RichTextEditor = (iV) => {
         {/* Editable needs to be inside Slate apparently - that's fine lol */}
         <Editable
           renderLeaf={Leaf}
+          renderElement={renderElement}
           onKeyDown={(event) => {
             keyboardShortcuts(event, editor);
           }}
@@ -93,5 +106,16 @@ const RichTextEditor = (iV) => {
     </>
   );
 };
+
+const DefaultElement = props => {
+  return <p {...props.attributes}>{props.children}</p>
+}
+
+const ListItemElement = props => {
+  return (
+      <li {...props.attributes}>{props.children}</li>
+    
+  )
+}
 
 export default RichTextEditor;

@@ -9,7 +9,7 @@ const Home = () => {
 
   data && console.log("here:", data[0]?.json);
 
-  const iV = data[0]?.json;
+  const iV = data[2]?.json;
 
   // useMemo(
   //     () =>
