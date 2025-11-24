@@ -1,33 +1,14 @@
-const CustomElement = ({ attributes, children, element }) => {
-  const style = {};
-
+//* defines how the element is rendered in the "text-area"
+const CustomElement = ({ children, element }) => {
   switch (element.type) {
-    case "bulleted-list":
-      return (
-        <ul style={style} {...attributes}>
-          {children}
-        </ul>
-      );
-
-    case "list-item":
-      return (
-        <li style={style} {...attributes}>
-          {children}
-        </li>
-      );
-
     case "ordered-list":
-      return (
-        <ol>
-          {children}
-        </ol>
-      );
+      return <ol className="list-decimal list-inside">{children}</ol>;
+    case "unordered-list":
+      return <ul className="list-disc list-inside">{children}</ul>;
+    case "list-item":
+      return <li>{children}</li>;
     default:
-      return (
-        <p style={style} {...attributes}>
-          {children}
-        </p>
-      );
+      return <p>{children}</p>;
   }
 };
 

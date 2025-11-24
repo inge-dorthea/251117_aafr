@@ -18,7 +18,7 @@ const Home = () => {
   //   )
 
   return (
-    <div>
+    <div className="w-80 m-auto">
       Home
       {iV && <RichTextEditor iV={iV} />}
       {data &&

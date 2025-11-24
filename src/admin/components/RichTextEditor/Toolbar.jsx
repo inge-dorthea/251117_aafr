@@ -13,7 +13,7 @@ const Toolbar = () => {
             event.preventDefault();
             CustomEditor.toggleBoldMark(editor);
           }}
-          className="bold"
+          className="font-bold"
           title="Fed&#10;(Ctrl + F)"
         >
           F
@@ -82,7 +82,7 @@ const Toolbar = () => {
         <button
           onClick={(event) => {
             event.preventDefault();
-            CustomEditor.toggleBlock(editor, "bulleted-list");
+            CustomEditor.toggleBlock(editor, "unordered-list");
           }}
           title="Liste med punkter"
         >
