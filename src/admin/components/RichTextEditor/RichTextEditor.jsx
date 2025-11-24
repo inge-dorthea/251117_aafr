@@ -1,13 +1,15 @@
 // Import React dependencies.
 import { useState, useCallback } from "react";
 // Import the Slate editor factory.
-import { createEditor } from "slate";
+import { createEditor, Editor, Element, Transforms } from "slate";
 import { updateData } from "../../../api/APIfunctions";
 
 // Import the Slate components and React plugin.
 import { Slate, Editable, withReact } from "slate-react";
 
 import { keyboardShortcuts, Leaf, CustomEditor } from "./functions";
+import Toolbar from "./Toolbar";
+import  CustomElement from "./CustomElement";
 
 const RichTextEditor = (iV) => {
   //* Create a Slate editor object that won't change across renders.
@@ -24,15 +26,10 @@ const RichTextEditor = (iV) => {
 
   //* Define a rendering function based on the element passed to `props`. We use
   // `useCallback` here to memoize the function for subsequent renders.
-  const renderElement = useCallback(props => {
-    switch (props.element.type) {
-      case 'listitem':
-        return <ol><ListItemElement {...props} /></ol>
-      default:
-        return <DefaultElement {...props} />
-    }
-  }, [])
-
+  const renderElement = useCallback(
+    (props) => <CustomElement {...props} />,
+    []
+  );
 
   return (
     <>
@@ -53,46 +50,9 @@ const RichTextEditor = (iV) => {
           }
         }}
       >
-        {/* toolbar */}
-        <menu>
-          <li>
-            <button
-              onClick={(event) => {
-                event.preventDefault();
-                CustomEditor.toggleBoldMark(editor);
-              }}
-              style={{ fontWeight: "bold" }}
-              title="Fed&#10;(Ctrl + F)"
-            >
-              F
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={(event) => {
-                event.preventDefault();
-                CustomEditor.toggleItalicMark(editor);
-              }}
-              style={{ fontStyle: "italic" }}
-              title="Kursiv&#10;(Ctrl + K)"
-            >
-              K
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={(event) => {
-                event.preventDefault();
-                CustomEditor.toggleUnderlineMark(editor);
-              }}
-              style={{ textDecoration: "underline" }}
-              title="Understreget&#10;(Ctrl + U)"
-            >
-              U
-            </button>
-          </li>
-        </menu>
-        {/* end toolbar */}
+
+<Toolbar />
+
 
         {/* Editable needs to be inside Slate apparently - that's fine lol */}
         <Editable
@@ -106,16 +66,5 @@ const RichTextEditor = (iV) => {
     </>
   );
 };
-
-const DefaultElement = props => {
-  return <p {...props.attributes}>{props.children}</p>
-}
-
-const ListItemElement = props => {
-  return (
-      <li {...props.attributes}>{props.children}</li>
-    
-  )
-}
 
 export default RichTextEditor;

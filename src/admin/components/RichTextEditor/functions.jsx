@@ -44,6 +44,49 @@ export const CustomEditor = {
       ? Editor.removeMark(editor, "underline")
       : Editor.addMark(editor, "underline", true);
   },
+
+
+  isBlockActive (editor, format) {
+  const { selection } = editor;
+  if (!selection) return false;
+  const [match] = Array.from(
+    Editor.nodes(editor, {
+      at: Editor.unhangRange(editor, selection),
+      match: (n) => {
+        if (!Editor.isEditor(n) && Element.isElement(n)) {
+          return n.type === format;
+        }
+        return false;
+      },
+    })
+  );
+  return !!match;
+},
+  toggleBlock(editor, format) {
+    const isActive = CustomEditor.isBlockActive(editor, format);
+    const isList = CustomEditor.isListType(format);
+    Transforms.unwrapNodes(editor, {
+      match: (n) =>
+        !Editor.isEditor(n) && Element.isElement(n) && CustomEditor.isListType(n.type),
+      split: true,
+    });
+    let newProperties = {
+      type: isActive ? "paragraph" : isList ? "list-item" : format,
+    };
+  
+    Transforms.setNodes(editor, newProperties);
+  if (!isActive && isList) {
+    const block = { type: format, children: [] };
+    Transforms.wrapNodes(editor, block);
+  }
+  },
+
+isListType(format) {
+const LIST_TYPES = ["ordered-list", "bulleted-list"];
+
+  return LIST_TYPES.includes(format);
+}
+
 }; // END toggle functions
 /* #endregion toggle functions */
 
