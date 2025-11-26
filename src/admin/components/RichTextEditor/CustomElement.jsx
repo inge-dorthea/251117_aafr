@@ -1,14 +1,16 @@
 //* defines how the element is rendered in the "text-area"
-const CustomElement = ({ children, element }) => {
-  switch (element.type) {
+const CustomElement = (props) => {
+  switch (props.element.type) {
+    case "quote":
+      return <p {...props.attributes} className="border-l-2 px-5 font-light text-end">{props.children}</p>
     case "ordered-list":
-      return <ol className="list-decimal list-inside">{children}</ol>;
+      return <ol {...props.attributes} className="list-decimal list-inside">{props.children}</ol>;
     case "unordered-list":
-      return <ul className="list-disc list-inside">{children}</ul>;
+      return <ul {...props.attributes} className="list-disc list-inside">{props.children}</ul>;
     case "list-item":
-      return <li>{children}</li>;
+      return <li {...props.attributes}>{props.children}</li>;
     default:
-      return <p>{children}</p>;
+      return <p {...props.attributes}>{props.children}</p>;
   }
 };
 

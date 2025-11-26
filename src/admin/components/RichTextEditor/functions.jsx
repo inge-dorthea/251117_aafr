@@ -54,18 +54,6 @@ export const CustomEditor = {
       : Editor.addMark(editor, "linethrough", true);
   },
 
-  //* Quote-toggle
-  isQuoteMarkActive(editor) {
-    const marks = Editor.marks(editor);
-    return marks ? marks.quote === true : false;
-  },
-  toggleQuoteMark(editor) {
-    const isActive = CustomEditor.isQuoteMarkActive(editor);
-    isActive
-      ? Editor.removeMark(editor, "quote")
-      : Editor.addMark(editor, "quote", true);
-  },
-
   //* Ordered and unordered list-toggle
   // makes sure the lists are rendered and saved properly
   // don't understand it completely, but it works

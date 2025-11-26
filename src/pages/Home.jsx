@@ -18,10 +18,10 @@ const Home = () => {
   //   )
 
   return (
-    <div className="w-80 m-auto">
+    <div className="w-100 m-auto flex flex-col">
       Home
-      {iV && <RichTextEditor iV={iV} />}
-      {data &&
+      {iV && <RichTextEditor iV={iV} height="h-90" />}
+{data &&
         data.map((item, index) => (
           <div key={index}>
             <p>
@@ -46,6 +46,7 @@ const Home = () => {
             ))}
             </div>
         ))}
+      
     </div>
   );
 };
