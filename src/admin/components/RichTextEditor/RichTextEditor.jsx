@@ -17,12 +17,12 @@ import CustomElement from "./CustomElement";
 import { keyboardShortcuts, Leaf } from "./functions";
 
 //* Rich Text Editor
-const RichTextEditor = ({ iV, height }) => {
+const RichTextEditor = ({ iV, height, setData }) => {
   //* Update database
-  const [data, setData] = useState(iV);
+  // const [data, setData] = useState(iV);
 
   const updateDB = () => {
-    updateData(data);
+    // updateData("test-table", 3, data);
   };
 
   //* Slate editor
@@ -74,7 +74,7 @@ const RichTextEditor = ({ iV, height }) => {
             keyboardShortcuts(event, editor);
           }}
         />
-        <div className="flex mt-2 w-full">
+        {/* <div className="flex mt-2 w-full">
           <button
           className="w-full border rounded-xs cursor-pointer box-border px-2 py-1 bg-gray-50 border-gray-100 hover:bg-gray-100 hover:border-gray-200"
           title="Gem og udgiv på hjemmesiden"
@@ -83,7 +83,7 @@ const RichTextEditor = ({ iV, height }) => {
           Gem og udgiv
         </button>
         <p className="text-end w-full mt-1">Feedback ift. om teksten er gemt.</p>
-        </div>
+        </div> */}
         
       </Slate>
     </>

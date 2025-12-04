@@ -5,7 +5,8 @@ import { useState, useCallback, useMemo } from "react";
 import { getData } from "../api/APIfunctions";
 
 const Home = () => {
-  const data = getData();
+  
+  const data = getData("test-table", null);
 
   data && console.log("here:", data[0]?.json);
 
