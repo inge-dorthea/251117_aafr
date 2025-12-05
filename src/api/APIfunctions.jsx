@@ -4,7 +4,7 @@ const supabaseUrl = "https://rnleiofyyckqxppsfkyi.supabase.co";
 const supabaseKey = import.meta.env.VITE_API_BASE_URL;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const getData = (table, page, id) => {
+export const getData = (table, id) => {
   const [test, setTest] = useState([]);
 
   useEffect(() => {
@@ -12,18 +12,8 @@ export const getData = (table, page, id) => {
   }, []);
 
   const fetchData = async () => {
-    if (!page && !id) {
+    if (!id) {
       const { data, error } = await supabase.from(table).select();
-
-      if (error) console.log(error);
-
-      setTest(data);
-    }
-    if (page) {
-      const { data, error } = await supabase
-        .from(table)
-        .select()
-        .eq("page", page);
 
       if (error) console.log(error);
 
