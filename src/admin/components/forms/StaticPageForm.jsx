@@ -1,19 +1,31 @@
-import {useState, useEffect} from "react";
-import { getData, updateData } from "../../../api/APIfunctions";
-import RichTextEditor from "../RichTextEditor/RichTextEditor";
+//* react
+import { useState, useEffect } from "react";
 
-const StaticPageForm = ({id, height}) => {
-  // get data
+//* own functions
+import { getData, updateData } from "../../../api/APIfunctions";
+import { useReload } from "../LastUpdated/useReload";
+
+//* components
+import Input from "./Input";
+import RichTextEditor from "../RichTextEditor/RichTextEditor";
+import SaveButton from "./SaveButton";
+import LastUpdated from "../LastUpdated/LastUpdated";
+
+const StaticPageForm = ({ id, height }) => {
+  //* reload-function for LastUpdated-component
+  const [reload, reloading] = useReload();
+
+  //* get data
   const dataArray = getData("static-pages", id);
 
-  // data for and from RichTextEditor
+  //* data for and from RichTextEditor
   const [textData, setTextData] = useState(null);
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.text);
   }, [dataArray]);
 
-  // updating data in database
+  //* updating data in database
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -26,32 +38,37 @@ const StaticPageForm = ({id, height}) => {
     };
 
     updateData("static-pages", id, body);
-  }
 
+    // reload LastUpdated-component
+    reload();
+  };
+
+  //* return
   return (
     <div>
       {textData && (
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="show_title">
-            Vis overskrift:
-            <input
-              type="checkbox"
-              name="show_title"
-              id="show_title"
-              defaultChecked={dataArray[0].show_title == true}
-            />
-          </label>
-          <label htmlFor="title">
-            Overskrift:
-            <input
+        <form onSubmit={handleSubmit} className="px-9 py-7 border border-gray-400 rounded-xs">
+          <div className="flex justify-between px-4 pb-4">
+            <Input
               type="text"
               name="title"
-              id="title"
+              label="Overskrift"
               defaultValue={dataArray[0].title}
             />
-          </label>
+            <Input
+              type="checkbox"
+              name="show_title"
+              label="Vis overskrift"
+              defaultValue={dataArray[0].show_title == true}
+            />
+          </div>
+
           <RichTextEditor iV={textData} height={height} setData={setTextData} />
-          <button type="submit">Gem og udgiv</button>
+
+          <div className="flex justify-between pt-4">
+            <SaveButton />
+            {reloading ? null : <LastUpdated table="static-pages" id={id} />}
+          </div>
         </form>
       )}
     </div>

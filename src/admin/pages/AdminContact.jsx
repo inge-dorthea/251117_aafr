@@ -4,10 +4,10 @@ import StaticPageForm from "../components/forms/StaticPageForm";
 const AdminContact = () => {
 
   return (
-    <div>
+    <div className="w-[80vw] m-auto flex flex-col gap-5">
       <ContactInfoForm />
-      <StaticPageForm id={"11"} />
-      <StaticPageForm id={"12"} />
+      <StaticPageForm id={"11"} height="h-[300px]" />
+      <StaticPageForm id={"12"} height="h-[300px]" />
     </div>
   );
 };
