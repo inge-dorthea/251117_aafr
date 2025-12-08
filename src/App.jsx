@@ -21,6 +21,7 @@ import AdminPartners from "./admin/pages/about/AdminPartners";
 import AdminApproach from "./admin/pages/about/AdminApproach";
 import AdminNews from "./admin/pages/AdminNews";
 import AdminContact from "./admin/pages/AdminContact";
+import ProtectedRoute from "./admin/pages/ProtectedRoute";
 
 function App() {
   return (
@@ -35,7 +36,10 @@ function App() {
           <Route path="kontakt" element={<Contact />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
-        <Route path="/admin" element={<LayoutAdmin />}>
+        <Route path="login" element={<Login />} />
+        
+        {/* protected route protects these pages */}
+          <Route path="/admin" element={<ProtectedRoute><LayoutAdmin /></ProtectedRoute>}>
           <Route index element={<Admin />} />
           <Route path="login" element={<Login />} />
           <Route path="forside" element={<AdminHome />} />
@@ -45,6 +49,8 @@ function App() {
           <Route path="nyheder" element={<AdminNews />} />
           <Route path="kontakt" element={<AdminContact />} />
         </Route>
+        
+        
       </Routes>
     </BrowserRouter>
   );

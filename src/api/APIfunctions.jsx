@@ -190,3 +190,18 @@ const postData = async (table, body) => {
       break;
   }
 };
+
+
+
+//! gotta work this out
+// Upload file using standard upload
+export async function uploadFile(file, bucket) {
+  const { data, error } = await supabase.storage.from(bucket).upload('file_path', file)
+  if (error) {
+    // Handle error
+    console.log(error)
+  } else {
+    // Handle success
+    console.log(data)
+  }
+}

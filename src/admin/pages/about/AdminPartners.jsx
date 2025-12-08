@@ -1,8 +1,10 @@
-import React from 'react'
+import StaticPageForm from "../../components/forms/StaticPageForm"
 
 const AdminPartners = () => {
   return (
-    <div>AdminPartners</div>
+    <div className="w-[80vw] m-auto flex flex-col gap-5">
+      <StaticPageForm id={"7"} height="h-[200px]" />
+    </div>
   )
 }
 

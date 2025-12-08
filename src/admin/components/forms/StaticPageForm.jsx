@@ -48,7 +48,7 @@ const StaticPageForm = ({ id, height }) => {
     <div>
       {textData && (
         <form onSubmit={handleSubmit} className="px-9 py-7 border border-gray-400 rounded-xs">
-          <div className="flex justify-between px-4 pb-4">
+          <div className="grid grid-cols-2 px-4 pb-4">
             <Input
               type="text"
               name="title"
