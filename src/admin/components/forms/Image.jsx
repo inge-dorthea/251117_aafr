@@ -1,17 +1,17 @@
 // component for uploading images
 //! i need to work on this
 
-import { uploadFile } from "../../../api/APIfunctions"
+import { uploadFile, getImage } from "../../../api/APIfunctions"
 import SaveButton from "./SaveButton"
 
-const Image = ({bucket}) => {
+const Image = ({folder}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(event.target.file_upload.value)
+        let file = event.target.file_upload.files[0];
 
-        uploadFile(event.target.file_upload.value, bucket)
+        uploadFile(file, folder, file.name)
     }
 
   return (

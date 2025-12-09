@@ -194,14 +194,56 @@ const postData = async (table, body) => {
 
 
 //! gotta work this out
-// Upload file using standard upload
-export async function uploadFile(file, bucket) {
-  const { data, error } = await supabase.storage.from(bucket).upload('file_path', file)
+
+export async function uploadFile(file, folder, fileName) {
+  const { data, error } = await supabase.storage
+    .from("images")
+    .upload(folder + '/' + fileName, file)
+
   if (error) {
-    // Handle error
-    console.log(error)
-  } else {
-    // Handle success
-    console.log(data)
+    console.error('Error uploading file:', error)
+    return
   }
+
+  console.log('File uploaded successfully:', data)
 }
+
+export const getImage = (filepath) => {
+  const { data } = supabase.storage.from('advisor-image').getPublicUrl(filepath)
+
+console.log(data.publicUrl)
+
+return data.publicUrl;
+}
+
+export const getImages = (folder) => {
+
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    list()
+  }, [])
+  
+
+  const list = async () => {
+    const {data, error} = await supabase.storage.from("images").list(folder.toString());
+
+    if(error) console.log(error);
+
+    setImages(data)
+  }
+
+  console.log(images)
+
+  let imageArray = [];
+
+  images.map((item, index) => {
+   const imageUrl = getImage(folder + "/" + item.name)
+
+   imageArray.push(imageUrl);
+  })
+
+  console.log(imageArray);
+
+}
+

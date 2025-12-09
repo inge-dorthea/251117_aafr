@@ -1,7 +1,7 @@
 //! gotta look at this and understand
 
 
-
+import { createClient } from "@supabase/supabase-js";
 
 import {  useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";

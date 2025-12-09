@@ -1,6 +1,7 @@
 import React from "react";
 import RichTextEditor from "../admin/components/RichTextEditor/RichTextEditor";
 import { useState, useCallback, useMemo } from "react";
+import { getImage, getImages } from "../api/APIfunctions";
 
 import { getData } from "../api/APIfunctions";
 
@@ -18,9 +19,13 @@ const Home = () => {
   //     []
   //   )
 
+  getImages("advisors");
+
   return (
     <div className="w-100 m-auto flex flex-col">
       Home
+              <img src={getImage("file-path/file-name.ext")} alt="" />
+      
       {iV && <RichTextEditor iV={iV} height="h-90" />}
 {data &&
         data.map((item, index) => (
