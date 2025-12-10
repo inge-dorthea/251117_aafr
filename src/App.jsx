@@ -37,11 +37,18 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Route>
         <Route path="login" element={<Login />} />
-        
+
         {/* protected route protects these pages */}
-          <Route path="/admin" element={<ProtectedRoute><LayoutAdmin /></ProtectedRoute>}>
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <LayoutAdmin />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Admin />} />
-          <Route path="login" element={<Login />} />
           <Route path="forside" element={<AdminHome />} />
           <Route path="raadgiverne" element={<AdminAdvisors />} />
           <Route path="samarbejdspartnere" element={<AdminPartners />} />
@@ -49,8 +56,6 @@ function App() {
           <Route path="nyheder" element={<AdminNews />} />
           <Route path="kontakt" element={<AdminContact />} />
         </Route>
-        
-        
       </Routes>
     </BrowserRouter>
   );

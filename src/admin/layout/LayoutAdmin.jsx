@@ -1,13 +1,16 @@
 import React from 'react'
 import { Outlet } from 'react-router'
+import HeaderAdmin from './HeaderAdmin'
 
 const LayoutAdmin = () => {
   return (
-    <div>
-      LayoutAdmin
-      <Outlet></Outlet>
-    </div>
+    <>
+      <HeaderAdmin />
+      <main>
+        <Outlet />
+      </main>
+    </>
   )
-}
+} 
 
 export default LayoutAdmin

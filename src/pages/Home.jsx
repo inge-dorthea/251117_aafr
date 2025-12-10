@@ -19,7 +19,7 @@ const Home = () => {
   //     []
   //   )
 
-  getImages("advisors");
+  // getImages("advisors");
 
   return (
     <div className="w-100 m-auto flex flex-col">

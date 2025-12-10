@@ -209,7 +209,7 @@ export async function uploadFile(file, folder, fileName) {
 }
 
 export const getImage = (filepath) => {
-  const { data } = supabase.storage.from('advisor-image').getPublicUrl(filepath)
+  const { data } = supabase.storage.from('images').getPublicUrl(filepath)
 
 console.log(data.publicUrl)
 
@@ -245,5 +245,6 @@ export const getImages = (folder) => {
 
   console.log(imageArray);
 
+  return imageArray;
 }
 

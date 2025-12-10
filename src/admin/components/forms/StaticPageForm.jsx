@@ -48,18 +48,20 @@ const StaticPageForm = ({ id, height }) => {
     <div>
       {textData && (
         <form onSubmit={handleSubmit} className="px-9 py-7 border border-gray-400 rounded-xs">
-          <div className="grid grid-cols-2 px-4 pb-4">
+          <div className="grid grid-cols-3 px-4 pb-4">
             <Input
               type="text"
               name="title"
               label="Overskrift"
               defaultValue={dataArray[0].title}
+              span="col-span-2"
             />
             <Input
               type="checkbox"
               name="show_title"
               label="Vis overskrift"
               defaultValue={dataArray[0].show_title == true}
+              span="col-span-1"
             />
           </div>
 

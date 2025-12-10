@@ -4,7 +4,7 @@
 import { uploadFile, getImage } from "../../../api/APIfunctions"
 import SaveButton from "./SaveButton"
 
-const Image = ({folder}) => {
+const UploadImage = ({folder}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -22,4 +22,4 @@ const Image = ({folder}) => {
   )
 }
 
-export default Image
+export default UploadImage

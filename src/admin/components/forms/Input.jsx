@@ -1,9 +1,9 @@
 import React from "react";
 
-const Input = ({ type, name, label, defaultValue }) => {
+const Input = ({ type, name, label, defaultValue, span }) => {
   if (type == "checkbox")
     return (
-      <div className="flex gap-3 justify-end">
+      <div className={`${span} flex gap-3 justify-end`}>
         <label htmlFor={name} className="h-fit my-auto">{label}:</label>
         <input
           type={type}
@@ -16,7 +16,7 @@ const Input = ({ type, name, label, defaultValue }) => {
     );
   else
     return (
-      <div className="flex gap-3 justify-start">
+      <div className={`${span} flex gap-3 justify-start`}>
         <label htmlFor={name} className="h-fit my-auto break-keep">{label}:</label>
         <input
           type={type}
