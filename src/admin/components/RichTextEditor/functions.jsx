@@ -146,7 +146,6 @@ export const Leaf = (props) => {
       ${props.leaf.italic ? "italic" : ""} 
       ${props.leaf.underline ? "underline" : ""}
       ${props.leaf.linethrough ? "line-through" : ""}
-      ${props.leaf.quote ? "quote" : ""}
       `}
     >
       {props.children}

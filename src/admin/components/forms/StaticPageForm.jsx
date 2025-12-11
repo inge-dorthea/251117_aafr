@@ -29,9 +29,12 @@ const StaticPageForm = ({ id, height }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const date = new Date();
+
     const text = textData;
 
     const body = {
+      last_updated: date,
       show_title: event.target.show_title.checked,
       title: event.target.title.value,
       text: text,

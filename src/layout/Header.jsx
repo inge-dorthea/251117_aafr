@@ -12,7 +12,7 @@ const Header = () => {
   const subMenuItems = [
         {name: "Om rådgiverne", path: "/raadgiverne"},
         {name: "Vores samarbejdspartnere", path: "/samarbejdspartnere"},
-        {name: "Vores tilgang", path: "/paedagogisk-tilgang"},
+        {name: "Vores pædagogiske tilgang", path: "/paedagogisk-tilgang"},
   ]
 
   return (
@@ -24,6 +24,9 @@ const Header = () => {
               <NavLink to={item.path}>{item.name}</NavLink>
             </li>
           ))}
+        </menu>
+        <menu>
+          {/* {subMenuItems.map()} */}
         </menu>
 
       </nav>

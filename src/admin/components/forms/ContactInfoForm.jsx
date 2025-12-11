@@ -18,8 +18,11 @@ const ContactInfoForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const date = new Date();
+
     const body = {
-      phone_number: event.target.phone_number.value,
+      last_updated: date,
+      phone: event.target.phone_number.value,
       phone_time: event.target.phone_time.value,
       email: event.target.email.value,
       address: event.target.address.value,

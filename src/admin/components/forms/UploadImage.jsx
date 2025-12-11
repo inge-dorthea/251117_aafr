@@ -3,8 +3,9 @@
 
 import { uploadFile, getImage } from "../../../api/APIfunctions"
 import SaveButton from "./SaveButton"
+import { useState } from "react"
 
-const UploadImage = ({folder}) => {
+const UploadImage = ({folder, setImage}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -14,9 +15,18 @@ const UploadImage = ({folder}) => {
         uploadFile(file, folder, file.name)
     }
 
+   
+
+const onImageChange = (event) => {
+ if (event.target.files && event.target.files[0]) {
+   setImage(URL.createObjectURL(event.target.files[0]));
+ }
+}
+
   return (
     <form onSubmit={handleSubmit}>
-        <input type="file" id="file_upload" name="file_upload" />
+        <input type="file" onChange={onImageChange} id="file_upload" name="file_upload" />
+
         <SaveButton />
     </form>
   )
