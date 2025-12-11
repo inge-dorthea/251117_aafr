@@ -32,16 +32,16 @@ export const getData = (table, id) => {
   return test;
 };
 
-
 export const updateData = async (table, id, body) => {
-  const {data, error} = await supabase.from(table).update(body).select().eq("id", id);
+  const { data, error } = await supabase
+    .from(table)
+    .update(body)
+    .select()
+    .eq("id", id);
 
-  if(error) console.log(error);
-  else console.log(data)
-}
-
-
-
+  if (error) console.log(error);
+  else console.log(data);
+};
 
 const postData = async (table, body) => {
   const date = new Date();
@@ -99,60 +99,66 @@ const postData = async (table, body) => {
   }
 };
 
-
-
 //! gotta work this out
 
 export async function uploadFile(file, folder, fileName) {
   const { data, error } = await supabase.storage
     .from("images")
-    .upload(folder + '/' + fileName, file)
+    .upload(folder + "/" + fileName, file);
 
   if (error) {
-    console.error('Error uploading file:', error)
-    return
+    console.error("Error uploading file:", error);
+    return;
   }
 
-  console.log('File uploaded successfully:', data)
+  console.log("File uploaded successfully:", data);
 }
+
+export const deleteFile = async (folder, fileName) => {
+  const { data, error } = await supabase.storage
+    .from("images")
+    .remove([folder + "/" + fileName]);
+
+    if(error) console.log(error);
+    else console.log(data)
+};
 
 export const getImage = (filepath) => {
-  const { data } = supabase.storage.from('images').getPublicUrl(filepath)
+  const { data } = supabase.storage.from("images").getPublicUrl(filepath);
 
-console.log(data.publicUrl)
+  console.log(data.publicUrl);
 
-return data.publicUrl;
-}
+  return data.publicUrl;
+};
 
 export const getImages = (folder) => {
-
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    list()
-  }, [])
-  
+    list();
+  }, []);
 
   const list = async () => {
-    const {data, error} = await supabase.storage.from("images").list(folder.toString());
+    const { data, error } = await supabase.storage
+      .from("images")
+      .list(folder.toString());
 
-    if(error) console.log(error);
+    if (error) console.log(error);
 
-    setImages(data)
-  }
+    setImages(data);
+  };
 
-  console.log(images)
+  console.log(images);
 
   let imageArray = [];
 
   images.map((item, index) => {
-   const imageUrl = getImage(folder + "/" + item.name)
+    const imageUrl = getImage(folder + "/" + item.name);
 
-   imageArray.push(imageUrl);
-  })
+    imageArray.push(imageUrl);
+  });
 
   console.log(imageArray);
 
   return imageArray;
-}
-
+};

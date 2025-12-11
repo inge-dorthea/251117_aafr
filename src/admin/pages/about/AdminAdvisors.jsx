@@ -6,6 +6,7 @@ import Input from "../../components/forms/Input";
 import SaveButton from "../../components/forms/SaveButton";
 import { updateData } from "../../../api/APIfunctions";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const AdminAdvisors = () => {
   const data = getData("advisors", null);
@@ -29,16 +30,15 @@ const AdminAdvisors = () => {
 
    const [image, setImage] = useState(null)
 
-    // setImage(getImage("advisors/" + data[0]?.img_url))
-
   return (
     <div className="w-[80vw] flex flex-col gap-5 m-auto">
       <h1>Overskrift</h1>
       <h2>Overskrift til staticpageform</h2>
       <StaticPageForm id={"6"} height="h-[200px]" />
       <UploadImage folder="advisors" setImage={setImage} />
-    <img alt="preview image" src={image} />
-
+    <img alt="preview image" src={image ? image : getImage("advisors/" + data[0]?.img_url)} />
+      
+      <Input type="file" name="file" label="Upload et billede" setImage={setImage} />
 
       <h2>Redigér rådgiverne</h2>
       {/* map out the advisors, link to an edit page for each advisor, make delete-function and button, also make post function */}
@@ -62,6 +62,7 @@ const AdminAdvisors = () => {
                     </div>
                   </figcaption>
                 </figure>
+                <Link to={"/admin/raadgiverne/" + item.id} > Redigér </Link>
                 <form onSubmit={(event) => handleSubmit(item.id, event)}>
                   <Input
                     type="number"

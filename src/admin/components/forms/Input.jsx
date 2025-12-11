@@ -1,10 +1,29 @@
 import React from "react";
 
-const Input = ({ type, name, label, defaultValue, span }) => {
-  if (type == "checkbox")
+const Input = ({ type, name, label, defaultValue, span, setImage }) => {
+
+  const onImageChange = (event) => {
+    // set a preview image for the file-input
+    if(event.target.files && event.target.files[0]){
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+  }
+
+  if (type == "file")
+    return (
+      <div className={`${span} flex gap-3 jusitfy-start`}>
+        <label htmlFor={name} className="h-fit my-auto">
+          {label}
+        </label>
+        <input type="file" onChange={onImageChange} name={name} id={name} />
+      </div>
+    );
+  else if (type == "checkbox")
     return (
       <div className={`${span} flex gap-3 justify-end`}>
-        <label htmlFor={name} className="h-fit my-auto">{label}:</label>
+        <label htmlFor={name} className="h-fit my-auto">
+          {label}:
+        </label>
         <input
           type={type}
           name={name}
@@ -17,7 +36,9 @@ const Input = ({ type, name, label, defaultValue, span }) => {
   else
     return (
       <div className={`${span} flex gap-3 justify-start`}>
-        <label htmlFor={name} className="h-fit my-auto break-keep">{label}:</label>
+        <label htmlFor={name} className="h-fit my-auto break-keep">
+          {label}:
+        </label>
         <input
           type={type}
           name={name}
