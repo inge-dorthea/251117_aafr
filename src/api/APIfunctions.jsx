@@ -39,88 +39,52 @@ export const updateData = async (table, id, body) => {
     .select()
     .eq("id", id);
 
-  if (error) console.log(error);
-  else console.log(data);
+  if (error) console.log("updateData: " + error)
+  else return data;
 };
 
-const postData = async (table, body) => {
-  const date = new Date();
+export const postData = async (table, body) => {
+  const {data, error} = await supabase.from(table).insert(body).select();
 
-  switch (table) {
-    case "reviews":
-      const { error: reviewError } = await supabase.from(table).insert({
-        last_updated: date,
-        show_review: body.show_review,
-        reviewer: body.reviewer,
-        review: body.review,
-      });
-      if (reviewError) console.log(reviewError);
-
-      break;
-
-    case "partners":
-      const { error: partnerError } = await supabase.from(table).insert({
-        last_updated: date,
-        img_url: body.img_url,
-        url: body.url,
-        order: body.order,
-        partner: body.partner,
-      });
-      if (partnerError) console.log(partnerError);
-
-      break;
-
-    case "news":
-      const { error: newsError } = await supabase.from(table).insert({
-        last_updated: date,
-        show_article: body.show_article,
-        show_author: body.show_author,
-        author: body.author,
-        headline: body.headline,
-        images: body.images,
-        article: body.article,
-        order: body.order,
-      });
-      if (newsError) console.log(newsError);
-
-      break;
-
-    case "advisors":
-      const { error: advisorError } = await supabase.from(table).insert({
-        last_updated: date,
-        name: body.name,
-        description: body.description,
-        img_url: body.img_url,
-        order: body.order,
-      });
-      if (advisorError) console.log(advisorError);
-
-      break;
-  }
+  if (error) console.log("postData: " + error);
+  else return data;
 };
+
+export const deleteData = async (table, id) => {
+  const { data, error } = await supabase.from(table).delete().eq('id', id).select();
+
+  if (error) console.log("deleteData: " + error);
+  else return data;
+}
+
 
 //! gotta work this out
 
 export async function uploadFile(file, folder, fileName) {
   const { data, error } = await supabase.storage
     .from("images")
-    .upload(folder + "/" + fileName, file);
+    .upload(folder + "/" + fileName, file, {
+      cacheControl: "3600",
+      upsert: true
+    });
 
   if (error) {
     console.error("Error uploading file:", error);
     return;
   }
+  else return data;
 
-  console.log("File uploaded successfully:", data);
+  // console.log("File uploaded successfully:", data);
 }
+
 
 export const deleteFile = async (folder, fileName) => {
   const { data, error } = await supabase.storage
     .from("images")
     .remove([folder + "/" + fileName]);
 
-    if(error) console.log(error);
-    else console.log(data)
+    if(error) console.log("deleteFile: " + error);
+    else return data;
 };
 
 export const getImage = (filepath) => {

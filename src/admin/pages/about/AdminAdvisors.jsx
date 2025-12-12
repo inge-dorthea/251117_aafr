@@ -36,7 +36,7 @@ const AdminAdvisors = () => {
       <h2>Overskrift til staticpageform</h2>
       <StaticPageForm id={"6"} height="h-[200px]" />
       <UploadImage folder="advisors" setImage={setImage} />
-    <img alt="preview image" src={image ? image : getImage("advisors/" + data[0]?.img_url)} />
+    {/* <img alt="preview image" src={image ? image : getImage("advisors/" + data[0]?.img_url)} /> */}
       
       <Input type="file" name="file" label="Upload et billede" setImage={setImage} />
 
@@ -50,13 +50,13 @@ const AdminAdvisors = () => {
               <div key={index} style={{ order: `${item.order}` }}>
                 <figure>
                   <img
-                    src={getImage("advisors/" + item.img_url)}
+                    src={getImage("advisors/" + item.id + "/" + item.img_url)}
                     alt={item.name}
                   />
                   <figcaption>
                     <h3>{item.name}</h3>
                     <div>
-                      {item.description.map((item, index) =>
+                      {item.description && item.description.map((item, index) =>
                         readText(item, index)
                       )}
                     </div>

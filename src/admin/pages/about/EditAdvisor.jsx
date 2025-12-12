@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
 import {
   deleteFile,
+  deleteData,
   getData,
   getImage,
   updateData,
   uploadFile,
+  postData
 } from "../../../api/APIfunctions";
 import Input from "../../components/forms/Input";
 import SaveButton from "../../components/forms/SaveButton";
@@ -21,6 +23,8 @@ const EditAdvisor = () => {
 
   const [textData, setTextData] = useState(null);
 
+  console.log(dataArray);
+
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.description);
   }, [dataArray]);
@@ -30,30 +34,90 @@ const EditAdvisor = () => {
 
     const date = new Date();
     const text = textData;
-    const newImage = event.target.image.files[0] ? event.target.image.files[0] : null;
+    const newImage = event.target.image.files[0]
+      ? event.target.image.files[0]
+      : null;
     const body = {
       last_updated: date,
       name: event.target.name.value,
-      description: text,
-      img_url: newImage ? newImage.name : dataArray[0].img_url,
+      description: text ? text : [],
+      img_url: newImage ? newImage.name : dataArray ? dataArray[0].img_url : null,
       order: event.target.order.value,
     };
 
-    if (dataArray != null && dataArray.length != 0) {
-      updateData("advisors", advisorId, body);
-      if (newImage) {
-        deleteFile("advisors", dataArray[0].img_url);
-        uploadFile(
-          newImage,
-          "advisors",
-          newImage.name
-        );
-      }
+    if(dataArray != null && dataArray.length != 0) {
+      updateData("advisors", advisorId, body).
+      then((res) => {
+        if (res == undefined) throw new Error("Couldn't update data.");
+        else if (res != undefined && newImage && dataArray[0].img_url) {
+          deleteFile("advisors/" + advisorId, dataArray[0].img_url).then((res) => {
+            if(res == undefined) throw new Error("Couldn't delete image.");
+            else {
+              uploadFile(newImage, "advisors/" + advisorId, newImage.name).then((res) => {
+                if(res == undefined) throw new Error("Couldn't upload image.");
+                else window.location.reload();
+              })
+            }
+          });
+        }
+        else if (res != undefined && newImage && !dataArray[0].img_url) {
+          uploadFile(newImage, "advisors/" + advisorId, newImage.name).then((res) => {
+                if(res == undefined) throw new Error("Couldn't upload image.");
+                else window.location.reload();
+              })
+        }
+        else if (res != undefined && !newImage) {
+          console.log("no new image");
+          window.location.reload();
+        }
+      })
+      
+    } // END if updating an existing advisor
+    else if(dataArray == null || dataArray.length == 0) {
+      postData("advisors", body).
+      then((res) => {
+        if (res == undefined) throw new Error ("Couldn't post data.");
+        else if (res != undefined && newImage) {
+         uploadFile(newImage, "advisors/" + res[0].id, newImage.name).
+          then((res) => {
+            if (res == undefined) throw new Error("Couldn't upload image.");
+            else window.location.reload();
+          })
+        }
+        else if (res != undefined && !newImage) {
+          console.log("no new image");
+          window.location.reload();
+        }
+      })
+    } // END if posting a new advisor
+
+
+  } // END handleSubmit
+
+  const handleDelete = () => {
+    if(dataArray[0].img_url){
+    deleteFile("advisors/" + advisorId, dataArray[0].img_url).then((res) => {
+            if(res == undefined) throw new Error("Couldn't delete image.");
+            else deleteData("advisors", advisorId).then((res) => {
+            if(res == undefined) throw new Error("Couldn't delete data.");
+            else window.location.reload();
+            })
+    })
+
     }
-  };
+    else {
+      deleteData("advisors", advisorId).then((res) => {
+            if(res == undefined) throw new Error("Couldn't delete data.");
+            else window.location.reload();
+            })
+    }
+  }
 
   return (
     <div>
+      {dataArray != null && (
+        <button onClick={handleDelete}>Slet rådgiver</button>
+      )}
       {(dataArray == null || (dataArray.length != 0 && textData)) && (
         <form onSubmit={handleSubmit}>
           <Input
@@ -80,7 +144,7 @@ const EditAdvisor = () => {
                 image
                   ? image
                   : dataArray
-                  ? getImage("advisors/" + dataArray[0]?.img_url)
+                  ? getImage("advisors/" + advisorId + "/" + dataArray[0]?.img_url)
                   : null
               }
               alt={"Billede af rådgiveren"}
