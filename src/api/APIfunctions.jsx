@@ -13,12 +13,23 @@ export const getData = (table, id) => {
 
   const fetchData = async () => {
     if (!id) {
-      const { data, error } = await supabase.from(table).select();
+      if(table == "static-pages" || table == "contact-info"){
+        const { data, error } = await supabase.from(table).select();
 
       if (error) console.log(error);
 
       setTest(data);
-    }
+      }
+      else {
+        const { data, error } = await supabase.from(table).select().order('order', { ascending: true });
+
+      if (error) console.log(error);
+
+      setTest(data);
+      }
+      }
+      
+    
 
     if (id) {
       const { data, error } = await supabase.from(table).select().eq("id", id);
@@ -27,7 +38,7 @@ export const getData = (table, id) => {
 
       setTest(data);
     }
-  };
+  }
 
   return test;
 };

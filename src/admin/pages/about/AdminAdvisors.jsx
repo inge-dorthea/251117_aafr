@@ -1,85 +1,148 @@
-import StaticPageForm from "../../components/forms/StaticPageForm";
-import UploadImage from "../../components/forms/UploadImage";
-import { getData, getImage } from "../../../api/APIfunctions";
-import readText from "../../components/RichTextEditor/readText";
-import Input from "../../components/forms/Input";
-import SaveButton from "../../components/forms/SaveButton";
-import { updateData } from "../../../api/APIfunctions";
+//* imports
+// react
 import { useState } from "react";
 import { Link } from "react-router";
 
+//components
+import StaticPageForm from "../../components/forms/StaticPageForm";
+import LastUpdated from "../../components/LastUpdated/LastUpdated";
+import NextPrev from "../../components/Pagination/NextPrev";
+import AreYouSure from "../../components/AreYouSure/AreYouSure";
+
+// own functionality
+import { getData, getImage } from "../../../api/APIfunctions";
+import readText from "../../components/RichTextEditor/readText";
+import { deleteFunction } from "../../functions/dataFunctions";
+
+//* component
 const AdminAdvisors = () => {
+  //* get data:
   const data = getData("advisors", null);
 
-  console.log(data);
+  //* pagination
+  const itemsPerPage = 4;
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
-  const handleSubmit = (id, event) => {
-    event.preventDefault();
+  //* deleting an advisor
+  const [showModal, setShowModal] = useState(false);
+  const [deletionItem, setDeletionItem] = useState(null);
 
-    console.log(event.target.value);
-
-    const date = new Date();
-
-    const body = {
-      last_updated: date,
-      order: event.target.value,
-    };
-
-    updateData("advisors", id, body);
+  const handleDelete = () => {
+    deleteFunction({
+      table: "advisors",
+      id: deletionItem.id,
+      folder: "advisors/",
+      image: deletionItem.img_url,
+      navigate: null,
+      path: null,
+    });
   };
 
-   const [image, setImage] = useState(null)
-
+  //* return
   return (
-    <div className="w-[80vw] flex flex-col gap-5 m-auto">
-      <h1>Overskrift</h1>
-      <h2>Overskrift til staticpageform</h2>
-      <StaticPageForm id={"6"} height="h-[200px]" />
-      <UploadImage folder="advisors" setImage={setImage} />
-    {/* <img alt="preview image" src={image ? image : getImage("advisors/" + data[0]?.img_url)} /> */}
-      
-      <Input type="file" name="file" label="Upload et billede" setImage={setImage} />
+    <div className="w-[80vw] flex flex-col m-auto">
+      {showModal && (
+        <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+      )}
+      <h1 className="text-4xl text-center mb-3">Om os - Rådgiverne</h1>
 
-      <h2>Redigér rådgiverne</h2>
-      {/* map out the advisors, link to an edit page for each advisor, make delete-function and button, also make post function */}
+      <section className="mb-6">
+        <h2 className="text-2xl mb-1">Redigér i den generelle beskrivelse</h2>
+        <StaticPageForm id={"6"} height="h-[200px]" />
+      </section>
 
-      <div className="grid grid-cols-1">
-        {data &&
-          data.map((item, index) => {
-            return (
-              <div key={index} style={{ order: `${item.order}` }}>
-                <figure>
-                  <img
-                    src={getImage("advisors/" + item.id + "/" + item.img_url)}
-                    alt={item.name}
-                  />
-                  <figcaption>
-                    <h3>{item.name}</h3>
-                    <div>
-                      {item.description && item.description.map((item, index) =>
-                        readText(item, index)
-                      )}
+      <section>
+        <h2 className="text-2xl mb-1">Redigér i rådgiverne</h2>
+
+        {data && (
+          <>
+            <div className="mb-3 flex justify-between">
+              <button className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200">
+                <Link
+                  to={"/admin/raadgiverne/ny-raadgiver"}
+                  className="h-full w-full"
+                >
+                  Opret ny rådgiver
+                </Link>
+              </button>
+              <NextPrev
+                itemsPerPage={itemsPerPage}
+                currentPageIndex={currentPageIndex}
+                setCurrentPageIndex={setCurrentPageIndex}
+                length={data.length}
+              />
+            </div>
+
+            <div className="flex flex-col gap-4 mb-3">
+              {data
+                .slice(currentPageIndex, currentPageIndex + itemsPerPage)
+                .map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="py-5 ps-6 pe-16 bg-orange-300 rounded-l-xs rounded-r-full"
+                    >
+                      <figure className="flex justify-between gap-3">
+                        <figcaption className="flex flex-col justify-between w-full">
+                          <article className="text-sm">
+                            <h3 className="text-lg font-semibold">
+                              {item.name}
+                            </h3>
+
+                            {item.description &&
+                              item.description.map((item, index) =>
+                                readText(item, index)
+                              )}
+                          </article>
+                          <div className="flex justify-end gap-4">
+                            <button className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200">
+                              <Link
+                                to={"/admin/raadgiverne/" + item.id}
+                                className="h-full w-full"
+                              >
+                                Redigér
+                              </Link>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setShowModal(true);
+                                setDeletionItem(item);
+                              }}
+                              className="pt-4 pb-5 px-5 border border-red-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-500 hover:border-red-200"
+                            >
+                              Slet
+                            </button>
+                            <div className="text-center bg-gray-50 border border-gray-300 px-2 pt-1 pb-2 rounded-xs box-border">
+                              <p>Rækkefølge:</p>
+                              <p>{item.order}</p>
+                            </div>
+                            <LastUpdated table="advisors" id={item.id} />
+                          </div>
+                        </figcaption>
+                        <img
+                          src={getImage(
+                            "advisors/" + item.id + "/" + item.img_url
+                          )}
+                          alt={"Billede af " + item.name}
+                          className="object-cover w-[15vw] rounded-full"
+                        />
+                      </figure>
                     </div>
-                  </figcaption>
-                </figure>
-                <Link to={"/admin/raadgiverne/" + item.id} > Redigér </Link>
-                <form onSubmit={(event) => handleSubmit(item.id, event)}>
-                  <Input
-                    type="number"
-                    name="order"
-                    label="Nummer i rækkefølgen"
-                    defaultValue={item.order}
-                  />
-                  <p>
-                    når to personer har samme nummer i rækkefølgen, bliver den
-                    der har haft nummeret i længst tid prioriteret
-                  </p>
-                  <SaveButton />
-                </form>
-              </div>
-            );
-          })}
-      </div>
+                  );
+                })}
+            </div>
+
+            <div className="mb-3">
+              <NextPrev
+                itemsPerPage={itemsPerPage}
+                currentPageIndex={currentPageIndex}
+                setCurrentPageIndex={setCurrentPageIndex}
+                length={data.length}
+              />
+            </div>
+          </>
+        )}
+      </section>
     </div>
   );
 };

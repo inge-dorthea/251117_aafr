@@ -56,7 +56,7 @@ const RichTextEditor = ({ iV, height, setData }) => {
       >
         <Toolbar />
         <Editable // the "textarea"
-          className={`border border-x-gray-200 border-gray-300 px-2 pt-1 pb-2 focus:border-0 focus:outline-2 outline-blue-300 rounded-b-xs box-border overflow-scroll w-full ${height}`}
+          className={`bg-white border border-x-gray-200 border-gray-300 px-2 pt-1 pb-2 focus:border-0 focus:outline-2 outline-blue-300 rounded-b-xs box-border overflow-scroll w-full ${height}`}
           renderLeaf={Leaf} // render text with correct styling
           renderElement={renderElement} // render text with correct html
           onKeyDown={(event) => {

@@ -23,6 +23,7 @@ import AdminNews from "./admin/pages/AdminNews";
 import AdminContact from "./admin/pages/AdminContact";
 import ProtectedRoute from "./admin/pages/ProtectedRoute";
 import EditAdvisor from "./admin/pages/about/EditAdvisor";
+import EditPartner from "./admin/pages/about/EditPartner";
 
 function App() {
   return (
@@ -55,6 +56,14 @@ function App() {
           <Route path="raadgiverne/:advisorId" element={<EditAdvisor />} />
           <Route path="raadgiverne/ny-raadgiver" element={<EditAdvisor />} />
           <Route path="samarbejdspartnere" element={<AdminPartners />} />
+          <Route
+            path="samarbejdspartnere/:partnerId"
+            element={<EditPartner />}
+          />
+          <Route
+            path="samarbejdspartnere/ny-samarbejdspartner"
+            element={<EditPartner />}
+          />
           <Route path="paedagogisk-tilgang" element={<AdminApproach />} />
           <Route path="nyheder" element={<AdminNews />} />
           <Route path="kontakt" element={<AdminContact />} />

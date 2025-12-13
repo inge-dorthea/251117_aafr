@@ -52,13 +52,15 @@ export const deleteFunction = ({ table, id, folder, image, navigate, path }) => 
       else
         deleteData(table, id).then((res) => {
           if (res == undefined) throw new Error("Couldn't delete data.");
-          else navigate(path);
+          else if (navigate && path) navigate(path);
+          else window.location.reload();
         }) //.then(() => navigate(path));
     });
   } else {
     deleteData(table, id).then((res) => {
       if (res == undefined) throw new Error("Couldn't delete data.");
-      else navigate(path);
+      else if (navigate && path) navigate(path);
+      else window.location.reload();
     }) //.then(() => navigate(path));
   }
 };

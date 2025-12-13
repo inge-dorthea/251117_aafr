@@ -13,9 +13,9 @@ const Input = ({ type, name, label, defaultValue, span, setImage }) => {
     return (
       <div className={`${span} flex gap-3 jusitfy-start`}>
         <label htmlFor={name} className="h-fit my-auto">
-          {label}
+          {label}:
         </label>
-        <input type="file" onChange={onImageChange} name={name} id={name} />
+        <input type="file" onChange={onImageChange} name={name} id={name} className="p-1 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200" />
       </div>
     );
   else if (type == "checkbox")
@@ -44,7 +44,7 @@ const Input = ({ type, name, label, defaultValue, span, setImage }) => {
           name={name}
           id={name}
           defaultValue={defaultValue}
-          className="w-full border border-gray-300 px-2 pt-1 pb-2 focus:border-o focus:outline-2 outline-blue-300 rounded-xs box-border"
+          className="w-full bg-white border border-gray-300 px-2 pt-1 pb-2 focus:border-o focus:outline-2 outline-blue-300 rounded-xs box-border"
         />
       </div>
     );

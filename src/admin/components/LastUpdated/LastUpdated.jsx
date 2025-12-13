@@ -23,3 +23,4 @@ const LastUpdated = ({ table, id }) => {
 };
 
 export default LastUpdated;
+ 
