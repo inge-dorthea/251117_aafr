@@ -2,7 +2,7 @@
 // react
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 // components
 import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
@@ -20,22 +20,18 @@ import {
 } from "../../functions/dataFunctions";
 
 //* component
-const EditAdvisor = () => {
+const EditReview = () => {
   //* get data if there's an id in the params
-  const { advisorId } = useParams();
+  const { reviewId } = useParams();
 
-  const dataArray =
-    advisorId != undefined ? getData("advisors", advisorId) : null;
+  const dataArray = reviewId != undefined ? getData("reviews", reviewId) : null;
 
   //* ready data for RichTexteditor
   const [textData, setTextData] = useState(null);
 
   useEffect(() => {
-    dataArray && setTextData(dataArray[0]?.description);
+    dataArray && setTextData(dataArray[0]?.review);
   }, [dataArray]);
-
-  //* setImage to show a preview of the image chosen through file-input
-  const [image, setImage] = useState(null);
 
   //* handle submit
   const handleSubmit = (event) => {
@@ -44,84 +40,76 @@ const EditAdvisor = () => {
     // handling the body:
     const date = new Date();
     const text = textData;
-    const newImage = event.target.image.files[0]
-      ? event.target.image.files[0]
-      : null;
 
     const body = {
       last_updated: date,
-      name: event.target.name.value,
-      description: text ? text : [],
-      img_url: newImage
-        ? newImage.name
-        : dataArray
-        ? dataArray[0].img_url
-        : null,
+      reviewer: event.target.reviewer.value,
+      review: text ? text : [],
+      show_review: event.target.show_review.checked,
       order: event.target.order.value,
     };
 
     // update or post:
     if (dataArray != null && dataArray.length != 0) {
       updateFunction({
-        table: "advisors",
-        id: advisorId,
+        table: "reviews",
+        id: reviewId,
         body: body,
-        newImage: newImage,
-        oldImage: dataArray[0].img_url,
-        folder: "advisors/",
+        newImage: null,
+        oldImage: null,
+        folder: null,
       });
     } // END if updating an existing advisor
     else if (dataArray == null || dataArray.length == 0) {
       postFunction({
-        table: "advisors",
+        table: "reviews",
         body: body,
-        newImage: newImage,
-        folder: "advisors/",
+        newImage: null,
+        folder: null,
       });
     } // END if posting a new advisor
   }; // END handleSubmit
 
-  //* deleting advisor
+  //* deleting review
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
     deleteFunction({
-      table: "advisors",
-      id: advisorId,
-      folder: "advisors/",
-      image: dataArray[0].img_url,
+      table: "reviews",
+      id: reviewId,
+      folder: null,
+      image: null,
       navigate: navigate,
-      path: "/admin/raadgiverne",
+      path: "/admin/forside/udtalelser",
     });
   };
 
-  //* component
-  return (
-    <div className="mb-3 w-[80vw] flex flex-col m-auto">
-      {showModal && (
+  return <section className="mb-3 w-[80vw] flex flex-col m-auto">
+{showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
       )}
 
+      <Link
+        to={"/admin/forside/udtalelser"}
+        className="mb-3 pt-4 pb-5 w-full text-center border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200"
+      >
+        Tilbage til udtalelser
+      </Link>
+
       {(dataArray == null || (dataArray.length != 0 && textData)) && (
-        <div className="py-5 ps-6 pe-16 bg-orange-300 rounded-l-xs rounded-r-full">
-          <form onSubmit={handleSubmit} className="flex justify-between gap-3">
-            <div className="w-full">
+        <div className="border border-gray-300 rounded-xs py-5 px-6">
+            <form onSubmit={handleSubmit}>
+                <div className="w-full">
+                   <div className="mb-3">
+                <Input type="checkbox" name="show_review" label="Vis udtalelse" defaultValue={dataArray == null ? true : dataArray[0].show_review == true} />
+              </div> 
               <div className="mb-3">
                 <Input
                   type="text"
-                  name="name"
-                  label="Rådgiverens navn"
-                  defaultValue={dataArray == null ? null : dataArray[0]?.name}
-                />
-              </div>
-
-              <div className="mb-3">
-                <Input
-                  type="file"
-                  name="image"
-                  label="Billede af rådgiveren"
-                  setImage={setImage}
+                  name="reviewer"
+                  label="Hvem"
+                  defaultValue={dataArray == null ? null : dataArray[0]?.reviewer}
                 />
               </div>
 
@@ -162,27 +150,10 @@ const EditAdvisor = () => {
                 )}
               </div>
             </div>
-
-            <figure className="size-fit my-auto">
-              <img
-                src={
-                  image
-                    ? image
-                    : dataArray
-                    ? getImage(
-                        "advisors/" + advisorId + "/" + dataArray[0]?.img_url
-                      )
-                    : null
-                }
-                alt={"Billede af rådgiveren"}
-                className="object-cover w-[30vw] rounded-full"
-              />
-            </figure>
-          </form>
+            </form>
         </div>
       )}
-    </div>
-  );
+  </section>
 };
 
-export default EditAdvisor;
+export default EditReview;

@@ -15,15 +15,18 @@ import PageNotFound from "./pages/PageNotFound";
 import LayoutAdmin from "./admin/layout/LayoutAdmin";
 import Admin from "./admin/pages/Admin";
 import Login from "./admin/pages/Login";
-import AdminHome from "./admin/pages/AdminHome";
+import AdminHome from "./admin/pages//home/AdminHome";
 import AdminAdvisors from "./admin/pages/about/AdminAdvisors";
 import AdminPartners from "./admin/pages/about/AdminPartners";
 import AdminApproach from "./admin/pages/about/AdminApproach";
-import AdminNews from "./admin/pages/AdminNews";
+import AdminNews from "./admin/pages/news/AdminNews";
 import AdminContact from "./admin/pages/AdminContact";
 import ProtectedRoute from "./admin/pages/ProtectedRoute";
 import EditAdvisor from "./admin/pages/about/EditAdvisor";
 import EditPartner from "./admin/pages/about/EditPartner";
+import AdminReviews from "./admin/pages/home/AdminReviews";
+import EditReview from "./admin/pages/home/EditReview";
+import EditArticle from "./admin/pages/news/EditArticle";
 
 function App() {
   return (
@@ -52,6 +55,12 @@ function App() {
         >
           <Route index element={<Admin />} />
           <Route path="forside" element={<AdminHome />} />
+          <Route path="forside/udtalelser" element={<AdminReviews />} />
+          <Route path="forside/udtalelser/:reviewId" element={<EditReview />} />
+          <Route
+            path="forside/udtalelser/ny-udtalelse"
+            element={<EditReview />}
+          />
           <Route path="raadgiverne" element={<AdminAdvisors />} />
           <Route path="raadgiverne/:advisorId" element={<EditAdvisor />} />
           <Route path="raadgiverne/ny-raadgiver" element={<EditAdvisor />} />
@@ -66,6 +75,8 @@ function App() {
           />
           <Route path="paedagogisk-tilgang" element={<AdminApproach />} />
           <Route path="nyheder" element={<AdminNews />} />
+          <Route path="nyheder/:articleId" element={<EditArticle />} />
+          <Route path="nyheder/ny-artikel" element={<EditArticle />} />
           <Route path="kontakt" element={<AdminContact />} />
         </Route>
       </Routes>

@@ -2,7 +2,6 @@ import ContactInfoForm from "../components/forms/ContactInfoForm";
 import StaticPageForm from "../components/forms/StaticPageForm";
 
 const AdminContact = () => {
-
   return (
     <div className="w-[80vw] m-auto flex flex-col gap-5">
       <ContactInfoForm />

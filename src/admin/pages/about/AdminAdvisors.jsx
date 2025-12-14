@@ -104,7 +104,8 @@ const AdminAdvisors = () => {
                               </Link>
                             </button>
                             <button
-                              onClick={() => {
+                              onClick={(event) => {
+                                event.preventDefault();
                                 setShowModal(true);
                                 setDeletionItem(item);
                               }}

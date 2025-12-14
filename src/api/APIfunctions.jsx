@@ -13,7 +13,7 @@ export const getData = (table, id) => {
 
   const fetchData = async () => {
     if (!id) {
-      if(table == "static-pages" || table == "contact-info"){
+      if(table == "static-pages" || table == "contact-info" || table == "test-table"){ //! fjern test-table
         const { data, error } = await supabase.from(table).select();
 
       if (error) console.log(error);

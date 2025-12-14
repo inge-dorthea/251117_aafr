@@ -46,7 +46,7 @@ export const postFunction = ({table, body, newImage, folder}) => {
 };
 
 export const deleteFunction = ({ table, id, folder, image, navigate, path }) => {
-  if (image) {
+  if (image && folder) {
     deleteFile(folder + id, image).then((res) => {
       if (res == undefined) throw new Error("Couldn't delete image.");
       else
