@@ -58,9 +58,9 @@ const EditArticle = () => {
         : dataArray
         ? dataArray[0].img_url
         : null,
-      img_alt: event.target.img_alt.value,
-      img_desc: event.target.img_desc.value,
-      show_img: event.target.show_img.checked,
+      img_alt: event.target.img_alt ? event.target.img_alt.value : null,
+      img_desc: event.target.img_desc ? event.target.img_desc.value : null,
+      show_img: event.target.show_img ? event.target.show_img.checked : false,
       order: event.target.order.value,
     };
 
