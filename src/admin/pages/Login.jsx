@@ -1,35 +1,43 @@
-//! gotta look at this and understand
-
-
+//* imports
 import { createClient } from "@supabase/supabase-js";
-
 import {  useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { useState } from "react";
 
-import { useState, useEffect } from "react";
+//* create client
 const supabaseUrl = "https://rnleiofyyckqxppsfkyi.supabase.co";
 const supabaseKey = import.meta.env.VITE_API_BASE_URL;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+//* component
 const Login = () => {
+  const [loginFail, setLoginFail] = useState(null);
 
+  //* ready the hooks
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  //* onSubmit
+  const onSubmit = async (data) => { // handleSubmit (useForm) takes the form data and serves it to onSubmit()
     const { email, password } = data;
+
+    // sign in with email and password
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) {
-      console.error("Sign up error:", error.message);
-    } else {
-      navigate("/admin/raadgiverne");
+
+
+    if (error) { // if there's an error, it will log it
+      console.error("Sign in error:", error.message);
+      setLoginFail(error.message);
+    } else { // if there's no error the user will be sent to the admin page
+      navigate("/admin");
     }
   };
 
@@ -37,15 +45,15 @@ const Login = () => {
     <div className="flex min-h-screen w-full items-center justify-center">
       <form
         className="flex w-1/3 flex-col items-center justify-center gap-4 rounded-3xl border-4 px-10 py-5"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)} // handleSubmit (useForm) takes the form data and serves it to onSubmit()
       >
         <div className="flex w-full items-center justify-between">
-          <label>Email:</label>
+          <label>E-mail:</label>
           <input
             type="email"
             className="ml-3 rounded-sm border px-3 py-1"
-            placeholder="Email"
-            {...register("email", { required: "Email is required" })}
+            placeholder="E-mail"
+            {...register("email", { required: "Skriv din e-mail" })}
           />
         </div>
         {errors.email && (
@@ -53,22 +61,28 @@ const Login = () => {
         )}
 
         <div className="flex w-full items-center justify-between">
-          <label>Password:</label>
+          <label>Kode:</label>
           <input
             type="password"
             className="ml-3 rounded-sm border px-3 py-1"
-            placeholder="Password"
+            placeholder="•••••••••••••••••••••••"
             {...register("password", {
-              required: "Password is required",
+              required: "Skriv den rigtige kode",
               minLength: {
                 value: 6,
-                message: "Password must be at least 6 characters",
+                message: "Skriv en kode på mindst 6 karakterer",
               },
             })}
           />
         </div>
         {errors.password && (
           <span className="text-red-500">{errors.password.message}</span>
+        )}
+        {loginFail && (
+          <div>
+          <p className="text-red-500 text-center">Login mislykkedes.</p>
+          <p className="text-sm text-center">{loginFail}</p>
+          </div>
         )}
 
         <input
@@ -77,12 +91,9 @@ const Login = () => {
           className="cursor-pointer rounded-lg bg-blue-800 px-8 py-2 text-white"
         />
         <div className="flex flex-row gap-3">
-          <p className="">don't have an account</p>
-          <Link to={"/register"} className="text-blue-800 underline">
-            register
-          </Link>
+          
           <Link to={"/"} className="text-blue-800 underline">
-            back
+            Tilbage til hjemmesiden
           </Link>
         </div>
       </form>
