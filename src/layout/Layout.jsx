@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <main className="bg-transparent sm:bg-red-200 md:bg-amber-200 lg:bg-green-200">
+      <main className="bg-[#e6ffec]">
         <Outlet />
       </main>
       <Footer />

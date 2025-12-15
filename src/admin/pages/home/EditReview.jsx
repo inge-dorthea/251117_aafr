@@ -49,7 +49,6 @@ const EditReview = () => {
       last_updated: date,
       reviewer: event.target.reviewer.value,
       review: text ? text : [],
-      show_review: event.target.show_review.checked,
       order: event.target.order.value,
     };
 
@@ -108,9 +107,6 @@ const EditReview = () => {
         <div className="border border-gray-300 rounded-xs py-5 px-6">
             <form onSubmit={handleSubmit}>
                 <div className="w-full">
-                   <div className="mb-3">
-                <Input type="checkbox" name="show_review" label="Vis udtalelse" defaultValue={dataArray == null ? true : dataArray[0].show_review == true} />
-              </div> 
               <div className="mb-3">
                 <Input
                   type="text"

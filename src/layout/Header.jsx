@@ -26,7 +26,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-[#87d6998f]">
+    <header className="bg-[#87d6998f] sm:bg-red-200 md:bg-amber-200 lg:bg-green-200">
       <nav className="sm:w-[90vw] md:w-[80vw] lg:w-[65vw] mx-auto pt-4">
         <menu className="flex flex-col sm:grid grid-cols-4 sm:gap-7">
           <li className="w-[45vw] mx-auto sm:w-full text-center size-full rounded-full hover:bg-gray-500/5">
