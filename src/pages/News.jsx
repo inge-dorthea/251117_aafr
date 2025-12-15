@@ -2,7 +2,6 @@ import { getData, getImage } from "../api/APIfunctions";
 import readText from "../admin/components/RichTextEditor/readText";
 import { useState, useEffect } from "react";
 import Loading from "../components/Loading";
-import DatabaseDown from "../components/DatabaseDown";
 
 const News = ({}) => {
   const [loading, setLoading] = useState(true);
