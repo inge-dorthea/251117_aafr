@@ -22,10 +22,10 @@ const [loading, setLoading] = useState(true);
     )}
     <div>
       {textData[0] && (
-        <section>
-          <article>
+        <section className="bg-[#ffc784] py-10">
+          <article className="w-[80vW] m-auto">
           {textData[0].show_title && (
-            <h1>{textData[0].title}</h1>
+            <h1 className='text-3xl text-center mb-2'>{textData[0].title}</h1>
           )}
           <div>
              {textData[0].text &&
@@ -34,9 +34,9 @@ const [loading, setLoading] = useState(true);
         </article>
         </section>
       )}
-      <section>
+      <section className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-10 pb-10 w-[90vw] sm:w-[85vw] md:w-[80vw] lg:w-[70vw] m-auto'>
         {partnerData && partnerData.map((item, index) => (
-        <figure>
+        <figure key={index}>
           <a href={item.url} target='_blank' rel="noreferrer">
             <img src={getImage("partners/" + item.id + "/" + item.img_url)} alt="" />
           </a>
