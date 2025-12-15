@@ -3,7 +3,7 @@ const readText = (text, key) => {
   switch (text.type) {
     case "paragraph":
       return (
-        <p key={key}>
+        <p key={key} className="mb-1.5">
           {text.children.map((item, index) => (
             <span
               key={index}
@@ -40,7 +40,7 @@ const readText = (text, key) => {
       return (
         <ol key={key} className="list-decimal list-inside">
           {text.children.map((item, index) => (
-            <li key={index}>
+            <li key={index} className="ms-2">
               {item.children.map((subitem, subindex) => (
                 <span
                   key={subindex}
@@ -61,7 +61,7 @@ const readText = (text, key) => {
       return (
         <ul key={key} className="list-disc list-inside">
           {text.children.map((item, index) => (
-            <li key={index}>
+            <li key={index} className="ms-2">
               {item.children.map((subitem, subindex) => (
                 <span
                   key={subindex}

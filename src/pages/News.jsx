@@ -2,6 +2,7 @@ import { getData, getImage } from "../api/APIfunctions";
 import readText from "../admin/components/RichTextEditor/readText";
 import { useState, useEffect } from "react";
 import Loading from "../components/Loading";
+import DatabaseDown from "../components/DatabaseDown";
 
 const News = ({}) => {
   const [loading, setLoading] = useState(true);
@@ -11,7 +12,6 @@ const News = ({}) => {
   useEffect(() => {
     if(data) setLoading(false);
   }, [data])
-  
 
   const [showArticle, setShowArticle] = useState(0);
 
@@ -23,6 +23,7 @@ const News = ({}) => {
       {loading && (
         <Loading />
       )}
+      {data &&
       <div className="py-5">
       <div className="grid grid-cols-1 md:grid-cols-5 bg-[#ffc784] mx-5 rounded-xs md:max-h-screen md:overflow-y-scroll">
         {article && (
@@ -61,7 +62,7 @@ const News = ({}) => {
               </button>
             ))}
         </section>
-      </div></div>
+      </div></div>}
     </>
   );
 };
