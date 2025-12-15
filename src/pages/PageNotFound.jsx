@@ -4,7 +4,7 @@ const PageNotFound = () => {
   return (
     <>
     <title>Siden findes ikke</title>
-    <p>Siden, du leder efter, findes ikke her.</p>
+    <p className='min-h-screen text-center pt-10'>Siden, du leder efter, findes ikke her.</p>
     </>
   )
 }
