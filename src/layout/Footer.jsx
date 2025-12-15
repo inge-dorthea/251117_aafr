@@ -18,7 +18,7 @@ const Footer = () => {
         <Loading />
       )}
       <figure>
-        <img src="/public/logo-2.png" alt="Åben Forældrerådgivnings logo" />
+        <img src="/logo-2.png" alt="Åben Forældrerådgivnings logo" />
       </figure>
       {data[0] && (
         <div>

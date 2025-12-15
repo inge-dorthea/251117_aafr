@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
+import { BsList } from "react-icons/bs";
+import { useLocation } from "react-router";
 
 const Header = () => {
-  const [showSubMenu, setShowSubMenu] = useState(null);
+  const showSubMenu = useLocation().pathname;
+
+  useEffect(() => {
+    setShowBurger(false);
+  }, [showSubMenu]);
+
+  console.log(showSubMenu);
+  const [showBurger, setShowBurger] = useState(false);
 
   const menuItems = [
     { name: "Om os", path: "/raadgiverne" },
@@ -18,44 +27,96 @@ const Header = () => {
 
   return (
     <header className="bg-[#87d6998f]">
-      <nav className="w-[90vw] mx-auto pt-4">
-        <menu className="grid grid-cols-4 gap-7">
-          <li className="text-center size-full rounded-full hover:bg-gray-500/5">
+      <nav className="sm:w-[90vw] md:w-[80vw] lg:w-[65vw] mx-auto pt-4">
+        <menu className="flex flex-col sm:grid grid-cols-4 sm:gap-7">
+          <li className="w-[45vw] mx-auto sm:w-full text-center size-full rounded-full hover:bg-gray-500/5">
             <NavLink to="/" title="Forside">
               <figure>
-                <img
-                  src="/public/logo-2.png"
-                  alt="Åben Forældrerådgivnings logo"
-                />
+                <img src="/logo-2.png" alt="Åben Forældrerådgivnings logo" />
               </figure>
             </NavLink>
           </li>
-          {menuItems.map((item, index) => (
-            <NavLink
-              to={item.path}
-              key={index}
-              className={({ isActive }) =>
-                isActive ? setShowSubMenu(item.path) : ""
-              }
+          <li className="text-6xl flex justify-end mr-4 sm:hidden">
+            <button
+              onClick={() => setShowBurger(showBurger ? false : true)}
+              className="hover:cursor-pointer hover:text-green-800"
             >
-              <li
-                className={`text-center text-3xl font-semibold size-full flex flex-col justify-center ${
-                  showSubMenu == item.path ? "bg-[#87d6998f]" : "bg-[#f07f0b]"
-                } hover:bg-[#f07f0b8f] hover:shadow-lg rounded-full`}
+              <BsList />
+            </button>
+          </li>
+          {menuItems.map((item, index) => (
+            <div key={index} className="hidden sm:block">
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-[#87d69959] size-full rounded-full flex flex-col justify-center hover:bg-[#ffb75f8f] hover:shadow-lg"
+                    : "bg-[#ffb75f] size-full rounded-full flex flex-col justify-center hover:bg-[#ffb75f8f] hover:shadow-lg"
+                }
               >
-                {item.name}
-              </li>
-            </NavLink>
+                <li
+                  className={`text-center sm:text-xl md:text-2xl lg:text-3xl font-semibold`}
+                >
+                  {item.name}
+                </li>
+              </NavLink>
+            </div>
           ))}
         </menu>
-        <menu>
-          {showSubMenu == "/raadgiverne" &&
+        <menu className="sm:flex justify-evenly h-[50px] hidden">
+          {(showSubMenu == "/raadgiverne" || showSubMenu == "/samarbejdspartnere" || showSubMenu == "/paedagogisk-tilgang") &&
             subMenuItems.map((item, index) => (
-              <li key={index}>
-                <NavLink to={item.path}>{item.name}</NavLink>
+              <li
+                key={index}
+                className="sm:text-md lg:text-xl my-auto hover:underline underline-offset-8"
+              >
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    isActive ? "underline underline-offset-8" : ""
+                  }
+                >
+                  {item.name}
+                </NavLink>
               </li>
             ))}
         </menu>
+        {showBurger && (
+          <menu className="flex flex-col gap-2 text-end mr-6 text-lg sm:hidden pb-5">
+            {subMenuItems.map((item, index) => (
+              <li key={index} className="hover:underline underline-offset-8">
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    isActive ? "underline underline-offset-8" : ""
+                  }
+                >
+                  {item.name}
+                </NavLink>
+              </li>
+            ))}
+            <li className="hover:underline underline-offset-8">
+              <NavLink
+                to={menuItems[1].path}
+                className={({ isActive }) =>
+                  isActive ? "underline underline-offset-8" : ""
+                }
+              >
+                {menuItems[1].name}
+              </NavLink>
+            </li>
+            <li className="hover:underline underline-offset-8">
+              <NavLink
+                to={menuItems[2].path}
+                className={({ isActive }) =>
+                  isActive ? "underline underline-offset-8" : ""
+                }
+              >
+                {menuItems[2].name}
+              </NavLink>
+            </li>
+          </menu>
+        )}
       </nav>
     </header>
   );
