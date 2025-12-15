@@ -1,13 +1,14 @@
 //* imports
 // react
 import { Link } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // components
 import StaticPageForm from "../../components/forms/StaticPageForm";
 import LastUpdated from "../../components/LastUpdated/LastUpdated";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import NextPrev from "../../components/Pagination/NextPrev";
+import Loading from "../../../components/Loading";
 
 // own functionality
 import { getImage, getData } from "../../../api/APIfunctions";
@@ -15,8 +16,15 @@ import { deleteFunction } from "../../functions/dataFunctions";
 
 //* component
 const AdminPartners = () => {
+  const [loading, setLoading] = useState(true);
+
   //* get data
   const data = getData("partners", null);
+
+  useEffect(() => {
+    if(data) setLoading(false);
+  }, [data])
+  
 
   //* pagination
   const itemsPerPage = 8;
@@ -45,6 +53,9 @@ const AdminPartners = () => {
       {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
       )}
+      {loading && (
+        <Loading />
+      )}
       {!showModal && (
         <section>
           <h2 className="text-2xl mb-1">Redigér i tekst om samarbejde</h2>
@@ -62,7 +73,7 @@ const AdminPartners = () => {
                   to={"/admin/samarbejdspartnere/ny-samarbejdspartner"}
                   className="h-full w-full"
                 >
-                  Opret ny rådgiver
+                  Opret ny samarbejdspartner
                 </Link>
               </button>
               <NextPrev

@@ -1,7 +1,7 @@
 //* imports
 // react
 import { useParams } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 // components
@@ -9,6 +9,7 @@ import Input from "../../components/forms/Input";
 import SaveButton from "../../components/forms/SaveButton";
 import LastUpdated from "../../components/LastUpdated/LastUpdated";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
+import Loading from "../../../components/Loading";
 
 // own functionality
 import { getData, getImage } from "../../../api/APIfunctions";
@@ -19,12 +20,18 @@ import {
 } from "../../functions/dataFunctions";
 
 const EditPartner = () => {
+  const [loading, setLoading] = useState(true);
+
   //* get data if there's an id in the params
   const { partnerId } = useParams();
 
   const dataArray =
     partnerId != undefined ? getData("partners", partnerId) : null;
 
+    useEffect(() => {
+      if(dataArray || partnerId == undefined) setLoading(false);
+    }, [dataArray])
+    
   //* setImage to show a preview of the image chosen through file-input
   const [image, setImage] = useState(null);
 
@@ -90,6 +97,9 @@ const EditPartner = () => {
     <div className="w-[80vw] m-auto flex flex-col">
       {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+      )}
+      {loading && (
+        <Loading />
       )}
 
       {(dataArray == null ||

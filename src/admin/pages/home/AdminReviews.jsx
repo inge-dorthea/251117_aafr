@@ -1,12 +1,13 @@
 //* imports
 // react
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 
 //components
 import LastUpdated from "../../components/LastUpdated/LastUpdated";
 import NextPrev from "../../components/Pagination/NextPrev";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
+import Loading from "../../../components/Loading";
 
 // own functionality
 import { getData } from "../../../api/APIfunctions";
@@ -15,10 +16,14 @@ import { deleteFunction } from "../../functions/dataFunctions";
 
 //* component
 const AdminReviews = () => {
+  const [loading, setLoading] = useState(true);
+
   //* get data:
   const data = getData("reviews", null);
 
-  console.log(data)
+  useEffect(() => {
+    if(data) setLoading(false);
+  }, [data])
 
   //* pagination
   const itemsPerPage = 8;
@@ -42,6 +47,10 @@ const AdminReviews = () => {
     <section className="w-[80vw] flex flex-col m-auto">
       {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+      )}
+      {loading &&
+      (
+        <Loading />
       )}
 
       <h1 className="text-4xl text-center mb-3">Udtalelser</h1>

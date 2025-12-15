@@ -10,6 +10,7 @@ import Input from "../../components/forms/Input";
 import SaveButton from "../../components/forms/SaveButton";
 import LastUpdated from "../../components/LastUpdated/LastUpdated";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
+import Loading from "../../../components/Loading";
 
 // own functionality
 import { getData, getImage } from "../../../api/APIfunctions";
@@ -21,6 +22,8 @@ import {
 
 //* component
 const EditReview = () => {
+  const [loading, setLoading] = useState(true);
+
   //* get data if there's an id in the params
   const { reviewId } = useParams();
 
@@ -31,6 +34,7 @@ const EditReview = () => {
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.review);
+    if(dataArray || reviewId == undefined) setLoading(false);
   }, [dataArray]);
 
   //* handle submit
@@ -88,6 +92,9 @@ const EditReview = () => {
   return <section className="mb-3 w-[80vw] flex flex-col m-auto">
 {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+      )}
+      {loading && (
+        <Loading />
       )}
 
       <Link

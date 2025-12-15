@@ -1,14 +1,26 @@
 import React from "react";
 import { getData, getImage } from "../../api/APIfunctions";
 import readText from "../../admin/components/RichTextEditor/readText";
+import { useState, useEffect } from "react";
+import Loading from "../../components/Loading";
 
 const Advisors = () => {
+    const [loading, setLoading] = useState(true);
+  
   const textData = getData("static-pages", 6);
   const advisorData = getData("advisors", null);
+
+  useEffect(() => {
+    if(textData && advisorData) setLoading(false);
+  }, [textData, advisorData])
+  
 
   return (
     <>
       <title>Om os - Rådgiverne</title>
+      {loading &&
+      <Loading />
+      }
       <div>
         {textData && (
           <section>

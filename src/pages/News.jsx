@@ -1,9 +1,17 @@
-import React, { useState } from "react";
 import { getData, getImage } from "../api/APIfunctions";
 import readText from "../admin/components/RichTextEditor/readText";
+import { useState, useEffect } from "react";
+import Loading from "../components/Loading";
 
 const News = ({}) => {
+  const [loading, setLoading] = useState(true);
+
   const data = getData("news", null);
+
+  useEffect(() => {
+    if(data) setLoading(false);
+  }, [data])
+  
 
   const [showArticle, setShowArticle] = useState(0);
 
@@ -12,6 +20,9 @@ const News = ({}) => {
   return (
     <>
       <title>Nyheder</title>
+      {loading && (
+        <Loading />
+      )}
       <div>
         {article && (
           <section>

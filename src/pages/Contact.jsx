@@ -1,15 +1,26 @@
 import React from "react";
 import { getData } from "../api/APIfunctions";
 import readText from "../admin/components/RichTextEditor/readText";
+import { useState, useEffect } from "react";
+import Loading from "../components/Loading";
 
 const Contact = () => {
+  const [loading, setLoading] = useState(true);
+
   const textData = getData("static-pages", null);
   const contactData = getData("contact-info", null);
+
+  useEffect(() => {
+    if(textData && contactData) setLoading(false);
+  }, [textData, contactData])
+  
 
   return (
     <>
       <title>Kontakt</title>
-
+{loading && (
+  <Loading />
+)}
       <section>
         {textData[10] && (
           <article>

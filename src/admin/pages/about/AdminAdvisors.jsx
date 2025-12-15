@@ -1,6 +1,6 @@
 //* imports
 // react
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 
 //components
@@ -8,6 +8,7 @@ import StaticPageForm from "../../components/forms/StaticPageForm";
 import LastUpdated from "../../components/LastUpdated/LastUpdated";
 import NextPrev from "../../components/Pagination/NextPrev";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
+import Loading from "../../../components/Loading";
 
 // own functionality
 import { getData, getImage } from "../../../api/APIfunctions";
@@ -16,8 +17,13 @@ import { deleteFunction } from "../../functions/dataFunctions";
 
 //* component
 const AdminAdvisors = () => {
+  const [loading, setLaoding] = useState(true);
   //* get data:
   const data = getData("advisors", null);
+
+  useEffect(() => {
+    if(data) setLaoding(false);
+  }, [data])
 
   //* pagination
   const itemsPerPage = 4;
@@ -43,6 +49,9 @@ const AdminAdvisors = () => {
     <div className="w-[80vw] flex flex-col m-auto">
       {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+      )}
+      {loading && (
+        <Loading />
       )}
       <h1 className="text-4xl text-center mb-3">Om os - Rådgiverne</h1>
 

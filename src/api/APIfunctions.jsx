@@ -16,14 +16,20 @@ export const getData = (table, id) => {
       if(table == "static-pages" || table == "contact-info"){
         const { data, error } = await supabase.from(table).select().order('id', {ascending: true});
 
-      if (error) console.log(error);
+      if (error) {
+        console.log(error)
+        return "error";
+      } ;
 
       setTest(data);
       }
       else {
         const { data, error } = await supabase.from(table).select().order('order', { ascending: true });
 
-      if (error) console.log(error);
+      if (error) {
+        console.log(error)
+        return "error";
+      } ;
 
       setTest(data);
       }
@@ -32,12 +38,14 @@ export const getData = (table, id) => {
     if (id) {
       const { data, error } = await supabase.from(table).select().eq("id", id);
 
-      if (error) console.log(error);
+      if (error) {
+        console.log(error)
+        return "error";
+      } ;
 
       setTest(data);
     }
   }
-
   return test;
 };
 

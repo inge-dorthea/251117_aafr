@@ -2,7 +2,7 @@
 // react
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 
 // components
 import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
@@ -10,6 +10,7 @@ import Input from "../../components/forms/Input";
 import SaveButton from "../../components/forms/SaveButton";
 import LastUpdated from "../../components/LastUpdated/LastUpdated";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
+import Loading from "../../../components/Loading";
 
 // own functionality
 import { getData, getImage } from "../../../api/APIfunctions";
@@ -20,6 +21,8 @@ import {
 } from "../../functions/dataFunctions";
 
 const EditArticle = () => {
+  const [loading, setLoading] = useState(true);
+
   //* get data if there's an id in the params
   const { articleId } = useParams();
 
@@ -30,6 +33,7 @@ const EditArticle = () => {
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.article);
+    if(dataArray || articleId == undefined) setLoading(false);
   }, [dataArray]);
 
   //* setImage to show a preview of the image chosen through file-input
@@ -104,6 +108,9 @@ const EditArticle = () => {
     <div className="mb-3 w-[80vw] flex flex-col m-auto">
       {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+      )}
+      {loading && (
+        <Loading />
       )}
 
       {(dataArray == null || (dataArray.length != 0 && textData)) && (

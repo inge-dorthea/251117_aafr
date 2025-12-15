@@ -1,14 +1,25 @@
 import React from 'react'
 import { getData, getImage } from '../../api/APIfunctions'
 import readText from '../../admin/components/RichTextEditor/readText';
+import { useState, useEffect } from "react";
+import Loading from '../../components/Loading';
 
 const Partners = () => {
+const [loading, setLoading] = useState(true);
+
   const textData = getData("static-pages", 7);
   const partnerData = getData("partners", null);
 
+  useEffect(() => {
+    if(textData && partnerData) setLoading(false);
+  }, [textData, partnerData])
+  
   return (
     <>
     <title>Om os - Samarbejdspartnere</title>
+    {loading && (
+      <Loading />
+    )}
     <div>
       {textData[0] && (
         <section>

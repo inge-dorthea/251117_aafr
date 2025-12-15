@@ -1,14 +1,25 @@
 import React from "react";
 import { getData } from "../../api/APIfunctions";
 import readText from "../../admin/components/RichTextEditor/readText";
+import { useState, useEffect } from "react";
+import Loading from "../../components/Loading";
 
 const Approach = () => {
+  const [loading, setLoading] = useState(true);
+
   const data = getData("static-pages", null);
+
+  useEffect(() => {
+    if(data) setLoading(false);
+  }, [data])
+  
 
   return (
     <>
       <title>Om os - Pædegogisk tilgang</title>
-
+{loading && (
+  <Loading />
+)}
       {data && (
         <div>
           <section>

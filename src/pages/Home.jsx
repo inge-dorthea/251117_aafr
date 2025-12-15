@@ -2,12 +2,20 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import readText from "../admin/components/RichTextEditor/readText";
 import { getData } from "../api/APIfunctions";
 import { Link } from "react-router";
+import Loading from "../components/Loading";
 
 const Home = () => {
-  const data = getData("static-pages", null);
-  const newsData = getData("news", null);
-  const reviewData = getData("reviews", null);
-  const contactData = getData("contact-info", null);
+  const [loading, setLoading] = useState(true);
+
+  const data = getData("static-pages", null, setLoading);
+  const newsData = getData("news", null, setLoading);
+  const reviewData = getData("reviews", null, setLoading);
+  const contactData = getData("contact-info", null, setLoading);
+
+  useEffect(() => {
+  if(data && newsData && reviewData && contactData) setLoading(false);
+  }, [data, newsData, reviewData, contactData])
+  
 
   const [showNumber, setShowNumber] = useState(2);
 
@@ -32,6 +40,7 @@ const Home = () => {
   return (
     <>
       <title>Åben Forældrerådgivning</title>
+      {loading && <Loading />}
       {data && (
         <div className="w-[80vw] m-auto">
           <section className="mb-3">
@@ -73,12 +82,12 @@ const Home = () => {
                   {data[1].text &&
                     data[1].text.map((item, index) => readText(item, index))}
                 </div>
-                {contactData[0] &&
-                (<div>
-                  <p>Vi har telefon tid {contactData[0].phone_time}</p>
-                  <p>+45 {contactData[0].phone}</p>
-                  </div>)
-                }
+                {contactData[0] && (
+                  <div>
+                    <p>Vi har telefon tid {contactData[0].phone_time}</p>
+                    <p>+45 {contactData[0].phone}</p>
+                  </div>
+                )}
               </article>
             )}
           </section>

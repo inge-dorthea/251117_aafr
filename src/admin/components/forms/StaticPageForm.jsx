@@ -10,10 +10,13 @@ import Input from "./Input";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
 import SaveButton from "./SaveButton";
 import LastUpdated from "../LastUpdated/LastUpdated";
+import Loading from "../../../components/Loading";
 
 const StaticPageForm = ({ id, height }) => {
   //* reload-function for LastUpdated-component
   const [reload, reloading] = useReload();
+
+  const [loading, setLoading] = useState(true);
 
   //* get data
   const dataArray = getData("static-pages", id);
@@ -23,6 +26,8 @@ const StaticPageForm = ({ id, height }) => {
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.text);
+
+    if(dataArray) setLoading(false);
   }, [dataArray]);
 
   //* updating data in database
@@ -49,6 +54,9 @@ const StaticPageForm = ({ id, height }) => {
   //* return
   return (
     <div>
+      {loading && (
+        <Loading />
+      )}
       {textData && (
         <form onSubmit={handleSubmit} className="px-9 py-7 border border-gray-400 rounded-xs">
           <div className="grid grid-cols-3 px-4 pb-4">

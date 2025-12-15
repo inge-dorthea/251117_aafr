@@ -10,6 +10,7 @@ import Input from "../../components/forms/Input";
 import SaveButton from "../../components/forms/SaveButton";
 import LastUpdated from "../../components/LastUpdated/LastUpdated";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
+import Loading from "../../../components/Loading";
 
 // own functionality
 import { getData, getImage } from "../../../api/APIfunctions";
@@ -21,6 +22,8 @@ import {
 
 //* component
 const EditAdvisor = () => {
+  const [loading, setLoading] = useState(true);
+
   //* get data if there's an id in the params
   const { advisorId } = useParams();
 
@@ -32,6 +35,7 @@ const EditAdvisor = () => {
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.description);
+    if(dataArray || advisorId == undefined) setLoading(false);
   }, [dataArray]);
 
   //* setImage to show a preview of the image chosen through file-input
@@ -101,6 +105,9 @@ const EditAdvisor = () => {
     <div className="mb-3 w-[80vw] flex flex-col m-auto">
       {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+      )}
+      {loading && (
+        <Loading />
       )}
 
       {(dataArray == null || (dataArray.length != 0 && textData)) && (

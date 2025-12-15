@@ -1,18 +1,27 @@
 //* own functions
 import { getData, updateData } from "../../../api/APIfunctions";
 import { useReload } from "../LastUpdated/useReload";
+import { useState, useEffect } from "react";
 
 //* components
 import LastUpdated from "../LastUpdated/LastUpdated";
 import Input from "./Input";
 import SaveButton from "./SaveButton";
+import Loading from "../../../components/Loading";
 
 const ContactInfoForm = () => {
   //* reload function for LastUpdated-component
   const [reload, reloading] = useReload();
 
+  const [loading, setLoading] = useState()
+
 //* get data
   const dataArray = getData("contact-info", "1");
+
+  useEffect(() => {
+    if(dataArray) setLoading(false);
+  }, [dataArray])
+  
 
 //* updating data in database
   const handleSubmit = (event) => {
@@ -38,6 +47,9 @@ const ContactInfoForm = () => {
   //* return
   return (
     <div>
+      {loading && (
+        <Loading />
+      )}
       {dataArray[0] && (
         <form onSubmit={handleSubmit} className="px-9 py-7 border border-gray-400 rounded-xs">
           <div className="grid grid-cols-2 gap-5 pb-4">
@@ -70,7 +82,7 @@ const ContactInfoForm = () => {
           </div>
           <div className="grid grid-cols-1 pb-4">
             <Input
-            type="number"
+            type="text"
             name="donation"
             label="Kontonummer til donation"
             defaultValue={dataArray[0].donation}
