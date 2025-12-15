@@ -13,8 +13,8 @@ export const getData = (table, id) => {
 
   const fetchData = async () => {
     if (!id) {
-      if(table == "static-pages" || table == "contact-info" || table == "test-table"){ //! fjern test-table
-        const { data, error } = await supabase.from(table).select();
+      if(table == "static-pages" || table == "contact-info"){
+        const { data, error } = await supabase.from(table).select().order('id', {ascending: true});
 
       if (error) console.log(error);
 
@@ -28,8 +28,6 @@ export const getData = (table, id) => {
       setTest(data);
       }
       }
-      
-    
 
     if (id) {
       const { data, error } = await supabase.from(table).select().eq("id", id);

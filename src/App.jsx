@@ -1,5 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router";
+import Favicon from 'react-favicon';
+
 
 //* pages
 import Layout from "./layout/Layout";
@@ -31,6 +33,7 @@ import EditArticle from "./admin/pages/news/EditArticle";
 function App() {
   return (
     <BrowserRouter>
+    <Favicon url="/public/logo-1d.png" />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
