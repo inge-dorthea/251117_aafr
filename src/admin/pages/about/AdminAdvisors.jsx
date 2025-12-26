@@ -14,6 +14,7 @@ import Loading from "../../../components/Loading";
 import { getData, getImage } from "../../../api/APIfunctions";
 import readText from "../../components/RichTextEditor/readText";
 import { deleteFunction } from "../../functions/dataFunctions";
+import { deleteData } from "../../../data/functions";
 
 //* component
 const AdminAdvisors = () => {
@@ -34,7 +35,7 @@ const AdminAdvisors = () => {
   const [deletionItem, setDeletionItem] = useState(null);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "advisors",
       id: deletionItem.id,
       folder: "advisors/",

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import readText from "../admin/components/RichTextEditor/readText";
-import { getData } from "../api/APIfunctions";
+import { getData } from "../data/functions";
 import { Link } from "react-router";
 import Loading from "../components/Loading";
 import { BsArrowLeft, BsCaretDownFill } from "react-icons/bs";

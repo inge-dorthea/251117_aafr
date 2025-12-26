@@ -6,7 +6,7 @@ import { useState } from "react";
 
 //* create client
 const supabaseUrl = "https://rnleiofyyckqxppsfkyi.supabase.co";
-const supabaseKey = import.meta.env.VITE_API_BASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 //* component

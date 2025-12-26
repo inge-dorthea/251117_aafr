@@ -19,6 +19,7 @@ import {
   postFunction,
   deleteFunction,
 } from "../../functions/dataFunctions";
+import { postData } from "../../../data/functions";
 
 //* component
 const EditReview = () => {
@@ -64,7 +65,7 @@ const EditReview = () => {
       });
     } // END if updating an existing advisor
     else if (dataArray == null || dataArray.length == 0) {
-      postFunction({
+      postData({
         table: "reviews",
         body: body,
         newImage: null,

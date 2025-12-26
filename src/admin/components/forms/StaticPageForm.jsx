@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 //* own functions
-import { getData, updateData } from "../../../api/APIfunctions";
+import { getData, updateData } from "../../../data/functions"
 import { useReload } from "../LastUpdated/useReload";
 
 //* components

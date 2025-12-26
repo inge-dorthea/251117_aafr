@@ -1,0 +1,16 @@
+- ret margin til padding på rådgiver-side
+- samarbejde-side: istedet for logoer vil de have de arrangementer de har været en del af - stjæl billeder fra trivselsalliancens hjemmeside - også skal de ikke linke til noget, men billedet skal blive større når de klikker
+- samarbejde-side: første skal være logo til trivselsalliancen som linker, men resten skal være de arrangementer de har været med til, som de skal oprette via admin side
+- undersøg om vis artikel virker
+- kontaktinfo - tilføj CVR mulighed (44745321)
+- kontaktinfo - sørg for at der står +45 på database
+- supabase login hvor længe skal der går før den logger ud - efter en dag
+- forside nyheder - istedet for en liste med de seneste -> bare den seneste med et lille uddrag, også linker den til den seneste, som de jo alle gør alligevel ligenu
+- lav en guide til supabase - til at de kan starte den igen, og måske ændre nogle ting der ville være nice for dem
+- tjek om jeg kan lave backup data
+- low priority: style admin
+- rte - sørg for at der ikke er tekst til at starte med
+
+
+
+- maybe instead of reloading from the post function or update function, make a modal that says if they were succesful with everything

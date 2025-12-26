@@ -19,6 +19,7 @@ import {
   postFunction,
   deleteFunction,
 } from "../../functions/dataFunctions";
+import { postData, deleteData, updateWithImage } from "../../../data/functions";
 
 //* component
 const EditAdvisor = () => {
@@ -66,7 +67,7 @@ const EditAdvisor = () => {
 
     // update or post:
     if (dataArray != null && dataArray.length != 0) {
-      updateFunction({
+      updateWithImage({
         table: "advisors",
         id: advisorId,
         body: body,
@@ -76,7 +77,7 @@ const EditAdvisor = () => {
       });
     } // END if updating an existing advisor
     else if (dataArray == null || dataArray.length == 0) {
-      postFunction({
+      postData({
         table: "advisors",
         body: body,
         newImage: newImage,
@@ -90,7 +91,7 @@ const EditAdvisor = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "advisors",
       id: advisorId,
       folder: "advisors/",
