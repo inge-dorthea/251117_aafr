@@ -13,13 +13,7 @@ import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import { getData, getImage } from "../../../api/APIfunctions";
-import {
-  updateFunction,
-  postFunction,
-  deleteFunction,
-} from "../../functions/dataFunctions";
-import { postData, deleteData, updateWithImage } from "../../../data/functions";
+import {getData, getImage, postData, deleteData, updateWithImage } from "../../../data/functions";
 
 //* component
 const EditAdvisor = () => {

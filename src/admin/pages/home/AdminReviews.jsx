@@ -10,9 +10,8 @@ import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import { getData } from "../../../api/APIfunctions";
+import { getData, deleteData } from "../../../data/functions";
 import readText from "../../components/RichTextEditor/readText";
-import { deleteFunction } from "../../functions/dataFunctions";
 
 //* component
 const AdminReviews = () => {
@@ -34,7 +33,7 @@ const AdminReviews = () => {
   const [deletionItem, setDeletionItem] = useState(null);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "reviews",
       id: deletionItem.id,
       folder: null,

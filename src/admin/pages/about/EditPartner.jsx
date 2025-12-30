@@ -12,12 +12,7 @@ import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import { getData, getImage } from "../../../api/APIfunctions";
-import {
-  updateFunction,
-  postFunction,
-  deleteFunction,
-} from "../../functions/dataFunctions";
+import { getData, getImage, updateWithImage, postData, deleteData } from "../../../data/functions";
 
 const EditPartner = () => {
   const [loading, setLoading] = useState(true);
@@ -58,7 +53,7 @@ const EditPartner = () => {
 
     // update or post:
     if (dataArray != null && dataArray.length != 0) {
-      updateFunction({
+      updateWithImage({
         table: "partners",
         id: partnerId,
         body: body,
@@ -68,7 +63,7 @@ const EditPartner = () => {
       });
     } // END if updating an existing advisor
     else if (dataArray == null || dataArray.length == 0) {
-      postFunction({
+      postData({
         table: "partners",
         body: body,
         newImage: newImage,
@@ -82,7 +77,7 @@ const EditPartner = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "partners",
       id: partnerId,
       folder: "partners/",

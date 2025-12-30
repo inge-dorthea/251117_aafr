@@ -14,3 +14,4 @@
 
 
 - maybe instead of reloading from the post function or update function, make a modal that says if they were succesful with everything
+- figure out how u want to do the loading component - like  how it looks and what if the data doesn't load? and stuff

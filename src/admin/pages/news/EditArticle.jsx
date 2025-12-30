@@ -13,12 +13,7 @@ import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import { getData, getImage } from "../../../api/APIfunctions";
-import {
-  updateFunction,
-  postFunction,
-  deleteFunction,
-} from "../../functions/dataFunctions";
+import { getData, getImage, updateWithImage, postData, deleteData } from "../../../data/functions";
 
 const EditArticle = () => {
   const [loading, setLoading] = useState(true);
@@ -70,7 +65,7 @@ const EditArticle = () => {
 
     // update or post:
     if (dataArray != null && dataArray.length != 0) {
-      updateFunction({
+      updateWithImage({
         table: "news",
         id: articleId,
         body: body,
@@ -80,7 +75,7 @@ const EditArticle = () => {
       });
     } // END if updating an existing advisor
     else if (dataArray == null || dataArray.length == 0) {
-      postFunction({
+      postData({
         table: "news",
         body: body,
         newImage: newImage,
@@ -94,7 +89,7 @@ const EditArticle = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "news",
       id: articleId,
       folder: "news/",

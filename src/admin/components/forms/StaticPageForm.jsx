@@ -13,10 +13,11 @@ import LastUpdated from "../LastUpdated/LastUpdated";
 import Loading from "../../../components/Loading";
 
 const StaticPageForm = ({ id, height }) => {
+  //* set the page to be laoding until data has been fetched
+  const [loading, setLoading] = useState(true);
+
   //* reload-function for LastUpdated-component
   const [reload, reloading] = useReload();
-
-  const [loading, setLoading] = useState(true);
 
   //* get data
   const dataArray = getData("static-pages", id);
@@ -34,6 +35,8 @@ const StaticPageForm = ({ id, height }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    setLoading(true);
+
     const date = new Date();
 
     const text = textData;
@@ -45,7 +48,9 @@ const StaticPageForm = ({ id, height }) => {
       text: text,
     };
 
-    updateData("static-pages", id, body);
+    const updatedData = updateData("static-pages", id, body);
+
+    if(updatedData) setLoading(false);
 
     // reload LastUpdated-component
     reload();

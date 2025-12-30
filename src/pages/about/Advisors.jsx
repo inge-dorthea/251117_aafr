@@ -1,5 +1,5 @@
 import React from "react";
-import { getData, getImage } from "../../api/APIfunctions";
+import { getData, getImage } from "../../data/functions";
 import readText from "../../admin/components/RichTextEditor/readText";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading";

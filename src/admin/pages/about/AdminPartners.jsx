@@ -11,8 +11,7 @@ import NextPrev from "../../components/Pagination/NextPrev";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import { getImage, getData } from "../../../api/APIfunctions";
-import { deleteFunction } from "../../functions/dataFunctions";
+import { getData, getImage, deleteData } from "../../../data/functions";
 
 //* component
 const AdminPartners = () => {
@@ -35,7 +34,7 @@ const AdminPartners = () => {
   const [deletionItem, setDeletionItem] = useState(null);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "partners",
       id: deletionItem.id,
       folder: "partners/",

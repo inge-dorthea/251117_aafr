@@ -277,7 +277,15 @@ export const deleteImage = async (folder, fileName) => {
   }
 }; // END deleteImage
 
-//! getImage
-//! getImages
+//* get image function
+export const getImage = (filepath) => {
+  try {
+    const {data} = supabase.storage.from("images"). getPublicUrl(filepath);
 
-//! update all calls to data functions in the project
+    return data.publicUrl;
+  }
+  catch (err) {
+    console.log("Unexpected error: " + err);
+    return null;
+  }
+} // END getImage

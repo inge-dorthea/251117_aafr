@@ -1,4 +1,4 @@
-import { getData } from "../../../api/APIfunctions";
+import { getData } from "../../../data/functions";
 
 const LastUpdated = ({ table, id }) => {
   const dataArray = getData(table, id);

@@ -1,16 +1,14 @@
 //* imports
-import { createClient } from "@supabase/supabase-js";
 import {  useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
-
-//* create client
-const supabaseUrl = "https://rnleiofyyckqxppsfkyi.supabase.co";
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { createSupabaseClient } from "../../data/functions";
 
 //* component
 const Login = () => {
+
+  const supabase = createSupabaseClient();
+
   const [loginFail, setLoginFail] = useState(null);
 
   //* ready the hooks

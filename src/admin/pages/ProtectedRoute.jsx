@@ -1,15 +1,13 @@
 //* imports
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
-import { createClient } from "@supabase/supabase-js";
-
-//* create client
-const supabaseUrl = "https://rnleiofyyckqxppsfkyi.supabase.co";
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { createSupabaseClient } from "../../data/functions";
 
 //* component
 const ProtectedRoute = ({ children }) => {
+
+  const supabase = createSupabaseClient();
+
   //* check if there's a session
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { getData } from "../api/APIfunctions";
+import { getData } from "../data/functions";
 import Loading from "../components/Loading";
 
 const Footer = () => {

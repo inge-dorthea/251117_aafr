@@ -11,9 +11,8 @@ import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import { getData, getImage } from "../../../api/APIfunctions";
+import { getData, getImage } from "../../../data/functions";
 import readText from "../../components/RichTextEditor/readText";
-import { deleteFunction } from "../../functions/dataFunctions";
 import { deleteData } from "../../../data/functions";
 
 //* component

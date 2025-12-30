@@ -13,13 +13,12 @@ import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import { getData, getImage } from "../../../api/APIfunctions";
 import {
-  updateFunction,
-  postFunction,
-  deleteFunction,
-} from "../../functions/dataFunctions";
-import { postData } from "../../../data/functions";
+  getData,
+  updateData,
+  postData,
+  deleteData,
+} from "../../../data/functions";
 
 //* component
 const EditReview = () => {
@@ -35,7 +34,7 @@ const EditReview = () => {
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.review);
-    if(dataArray || reviewId == undefined) setLoading(false);
+    if (dataArray || reviewId == undefined) setLoading(false);
   }, [dataArray]);
 
   //* handle submit
@@ -55,14 +54,7 @@ const EditReview = () => {
 
     // update or post:
     if (dataArray != null && dataArray.length != 0) {
-      updateFunction({
-        table: "reviews",
-        id: reviewId,
-        body: body,
-        newImage: null,
-        oldImage: null,
-        folder: null,
-      });
+      updateData("reviews", reviewId, body);
     } // END if updating an existing advisor
     else if (dataArray == null || dataArray.length == 0) {
       postData({
@@ -79,7 +71,7 @@ const EditReview = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "reviews",
       id: reviewId,
       folder: null,
@@ -89,13 +81,12 @@ const EditReview = () => {
     });
   };
 
-  return <section className="mb-3 w-[80vw] flex flex-col m-auto">
-{showModal && (
+  return (
+    <section className="mb-3 w-[80vw] flex flex-col m-auto">
+      {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
       )}
-      {loading && (
-        <Loading />
-      )}
+      {loading && <Loading />}
 
       <Link
         to={"/admin/forside/udtalelser"}
@@ -106,14 +97,16 @@ const EditReview = () => {
 
       {(dataArray == null || (dataArray.length != 0 && textData)) && (
         <div className="border border-gray-300 rounded-xs py-5 px-6">
-            <form onSubmit={handleSubmit}>
-                <div className="w-full">
+          <form onSubmit={handleSubmit}>
+            <div className="w-full">
               <div className="mb-3">
                 <Input
                   type="text"
                   name="reviewer"
                   label="Hvem"
-                  defaultValue={dataArray == null ? null : dataArray[0]?.reviewer}
+                  defaultValue={
+                    dataArray == null ? null : dataArray[0]?.reviewer
+                  }
                 />
               </div>
 
@@ -154,10 +147,11 @@ const EditReview = () => {
                 )}
               </div>
             </div>
-            </form>
+          </form>
         </div>
       )}
-  </section>
+    </section>
+  );
 };
 
 export default EditReview;

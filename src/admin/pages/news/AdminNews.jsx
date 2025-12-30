@@ -9,11 +9,9 @@ import NextPrev from "../../components/Pagination/NextPrev";
 import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
-
 // own functionality
-import { getData, getImage } from "../../../api/APIfunctions";
+import { getData, getImage, deleteData } from "../../../data/functions";
 import readText from "../../components/RichTextEditor/readText";
-import { deleteFunction } from "../../functions/dataFunctions";
 
 //* component
 const AdminNews = () => {
@@ -36,7 +34,7 @@ const AdminNews = () => {
   const [deletionItem, setDeletionItem] = useState(null);
 
   const handleDelete = () => {
-    deleteFunction({
+    deleteData({
       table: "news",
       id: deletionItem.id,
       folder: "news/",
