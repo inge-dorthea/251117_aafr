@@ -9,7 +9,7 @@ const Layout = () => {
       <main className="bg-[#e6ffec]">
         <Outlet />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

@@ -32,7 +32,7 @@ export const getData = (table, id) => {
             .order("id", { ascending: true });
 
           if (error) {
-            console.log("Error fetching data: " + error);
+            console.log("Error fetching data: " + error.message);
             setRes(null);
           } else {
             setRes(data);

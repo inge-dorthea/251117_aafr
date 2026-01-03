@@ -8,6 +8,7 @@ import { BsCaretUpFill } from "react-icons/bs";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { BsNewspaper } from "react-icons/bs";
 import { BsArrowRight } from "react-icons/bs";
+import PageNotFound from "./PageNotFound";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -63,6 +64,9 @@ const Home = () => {
     <>
       <title>Åben Forældrerådgivning</title>
       {loading && <Loading />}
+      {data == null && (
+        <PageNotFound />
+      )}
       {data && (
         <div className="w-[80vw] m-auto py-10">
           <section className="mb-10 bg-[#ffc784] py-4 px-6 rounded-l-xs rounded-r-xs md:rounded-r-full">

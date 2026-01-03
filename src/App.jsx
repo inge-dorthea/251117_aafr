@@ -5,7 +5,7 @@ import Favicon from 'react-favicon';
 
 //* pages
 import Layout from "./layout/Layout";
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 import Advisors from "./pages/about/Advisors";
 import Partners from "./pages/about/Partners";
 import Approach from "./pages/about/Approach";
