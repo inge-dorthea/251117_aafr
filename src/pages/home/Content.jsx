@@ -15,7 +15,7 @@ import {
 } from "react-icons/bs";
 
 const Content = () => {
-    //* data and loading
+  //* data and loading
   const [loading, setLoading] = useState(true);
 
   const data = getData("static-pages", null);
@@ -23,6 +23,7 @@ const Content = () => {
 
   useEffect(() => {
     console.log(data);
+    console.log(contactData);
     if (
       (data && data.length > 0 && contactData && contactData.length > 0) ||
       (data && data.length > 0 && contactData == null) ||
@@ -32,7 +33,7 @@ const Content = () => {
       setLoading(false);
   }, [data, contactData]);
 
-//   * choosing which text to show
+  //   * choosing which text to show
   const [showNumber, setShowNumber] = useState(2);
 
   const changeNumber = (direction) => {
@@ -45,14 +46,14 @@ const Content = () => {
     }
   }; // END changeNumber
 
-//  * return
+  //  * return
   return (
     <>
       {loading && <Loading />}
       {data == null && <PageNotFound />}
       {data && (
         <div className="w-[80vw] m-auto py-10">
-            {/* what they offer */}
+          {/* what they offer */}
           <section className="mb-10 bg-[#ffc784] py-4 px-6 rounded-l-xs rounded-r-xs md:rounded-r-full">
             {data[0] && (
               <article className="sm:w-full md:w-[90%] lg:w-[90%]">
@@ -104,10 +105,10 @@ const Content = () => {
             <section className="order-1 md:order-2 my-3 flex justify-between min-h-[230px] max-h-[290px]">
               {data[1] && (
                 <article className="h-full overflow-x-scroll border-t-5 w-full py-2 px-4">
-                  {(contactData && contactData[0]) && (
+                  {contactData && contactData[0] && (
                     <div className="mb-3">
                       <p className="text-2xl sm:text-4xl md:text-3xl lg:text-4xl text-center tracking-wide font-semibold mb-2">
-                        +45{contactData[0].phone}
+                        {contactData[0].phone}
                       </p>
                       <p>Vi har telefon tid {contactData[0].phone_time}.</p>
                     </div>

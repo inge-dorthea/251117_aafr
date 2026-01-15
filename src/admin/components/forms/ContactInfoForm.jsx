@@ -40,6 +40,7 @@ const ContactInfoForm = () => {
       email: event.target.email.value,
       address: event.target.address.value,
       donation: event.target.donation.value,
+      cvr_number: event.target.cvr_number.value
     };
 
     const updatedData = updateData("contact-info", "1", body);
@@ -62,7 +63,7 @@ const ContactInfoForm = () => {
         >
           <div className="grid grid-cols-2 gap-5 pb-4">
             <Input
-              type="number"
+              type="text"
               name="phone_number"
               label="Telefon-nummer"
               defaultValue={dataArray[0].phone}
@@ -94,6 +95,14 @@ const ContactInfoForm = () => {
               name="donation"
               label="Kontonummer til donation"
               defaultValue={dataArray[0].donation}
+            />
+          </div>
+          <div className="grid grid-cols-1 pb-4">
+            <Input
+              type="text"
+              name="cvr_number"
+              label="CVR nummer"
+              defaultValue={dataArray[0].cvr_number}
             />
           </div>
 

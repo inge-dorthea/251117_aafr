@@ -20,27 +20,28 @@ import {
   deleteData,
 } from "../../../data/functions";
 
-const EditPartner = () => {
+const EditEvent = () => {
+  //* loading
   const [loading, setLoading] = useState(true);
 
   //* get data if there's an id in the params
-  const { partnerId } = useParams();
+  const { eventId } = useParams();
 
-  const dataArray =
-    partnerId != undefined ? getData("partners", partnerId) : null;
+  const dataArray = eventId != undefined ? getData("events", eventId) : null;
 
   useEffect(() => {
-    if ((dataArray && dataArray.length > 0) || partnerId == undefined)
+    if ((dataArray && dataArray.length > 0) || eventId == undefined)
       setLoading(false);
   }, [dataArray]);
 
-  //* setImage to show a preview of the image chosen through file-input
+  //* set image to show a preview of image chosen through fileinput
   const [image, setImage] = useState(null);
 
+  //* handle submit - update/post
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // handling the body:
+    // handle body
     const date = new Date();
     const newImage = event.target.image.files[0]
       ? event.target.image.files[0]
@@ -48,51 +49,51 @@ const EditPartner = () => {
 
     const body = {
       last_updated: date,
-      partner: event.target.partner.value,
       img_url: newImage
         ? newImage.name
         : dataArray
         ? dataArray[0].img_url
         : null,
-      url: event.target.url.value,
+      img_alt: event.target.img_alt.value,
+      img_desc: event.target.img_desc.value,
       order: event.target.order.value,
     };
 
-    // update or post:
+    // update or post
     if (dataArray != null && dataArray.length != 0) {
       updateWithImage({
-        table: "partners",
-        id: partnerId,
+        table: "events",
+        id: eventId,
         body: body,
         newImage: newImage,
         oldImage: dataArray[0].img_url,
-        folder: "partners/",
+        folder: "events/",
       });
-    } // END if updating an existing advisor
+    } // END if updating an existing event
     else if (dataArray == null || dataArray.length == 0) {
       postData({
-        table: "partners",
+        table: "events",
         body: body,
         newImage: newImage,
-        folder: "partners/",
+        folder: "events/",
       });
-    } // END if posting a new advisor
+    } // END if posting a new event
   }; // END handleSubmit
 
-  //* deleting advisor
+  //* handle delete
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
     deleteData({
-      table: "partners",
-      id: partnerId,
-      folder: "partners/",
+      table: "events",
+      id: eventId,
+      folder: "events/",
       image: dataArray[0].img_url,
       navigate: navigate,
       path: "/admin/samarbejdspartnere",
     });
-  };
+  }; //END handle delete
 
   //* component
   return (
@@ -104,43 +105,47 @@ const EditPartner = () => {
 
       {(dataArray == null || dataArray.length != 0) && (
         <div className="py-5 px-6 border border-gray-400 rounded-xs">
-          <form onSubmit={handleSubmit} className="flex justify-between gap-3">
+          <form
+            onSubmit={handleSubmit}
+            className="flex justify-between gap-3"
+          >
             <div className="w-full">
-              <div className="mb-3">
-                <Input
-                  type="text"
-                  name="partner"
-                  label="Navn"
-                  defaultValue={
-                    dataArray == null ? null : dataArray[0]?.partner
-                  }
-                />
-              </div>
-
-              <div className="mb-3">
+                <div className="mb-3">
                 <Input
                   type="file"
                   name="image"
-                  label="Logo"
+                  label="Event-billede"
                   setImage={setImage}
                 />
               </div>
-
               <div className="mb-3">
                 <Input
                   type="text"
-                  name="url"
-                  label="Link til hjemmeside"
-                  defaultValue={dataArray == null ? null : dataArray[0].url}
+                  name="img_alt"
+                  label="Alternativ tekst til billede"
+                  defaultValue={
+                    dataArray == null ? null : dataArray[0]?.img_alt
+                  }
                 />
               </div>
-
+              <div className="mb-3">
+                <Input
+                  type="text"
+                  name="img_desc"
+                  label="Billedtekst til under billedet"
+                  defaultValue={
+                    dataArray == null ? null : dataArray[0]?.img_desc
+                  }
+                />
+              </div>
               <div className="mb-3">
                 <Input
                   type="number"
                   name="order"
                   label="Nummer i rækkefølgen"
-                  defaultValue={dataArray ? dataArray[0]?.order : null}
+                  defaultValue={
+                    dataArray == null ? null : dataArray[0]?.order
+                  }
                 />
               </div>
 
@@ -159,7 +164,7 @@ const EditPartner = () => {
                   </button>
                 )}
                 {dataArray != null && (
-                  <LastUpdated table="advisors" id={dataArray[0]?.id} />
+                  <LastUpdated table="events" id={dataArray[0]?.id} />
                 )}
               </div>
             </div>
@@ -171,11 +176,11 @@ const EditPartner = () => {
                     ? image
                     : dataArray
                     ? getImage(
-                        "partners/" + partnerId + "/" + dataArray[0]?.img_url
+                        "events/" + eventId + "/" + dataArray[0]?.img_url
                       )
                     : null
                 }
-                alt={"Samarbejdspartners logo"}
+                alt={"Eventets billede"}
                 className="object-cover w-[30vw]"
               />
             </figure>
@@ -186,4 +191,4 @@ const EditPartner = () => {
   );
 };
 
-export default EditPartner;
+export default EditEvent;

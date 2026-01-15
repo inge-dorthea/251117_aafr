@@ -53,8 +53,9 @@ const Footer = () => {
             <p>{data[0].donation}</p>
             <p className="font-bold mt-2 text-md">Kontakt os</p>
             <p>{data[0].address}</p>
-            <p>Tlf: +45 {data[0].phone}</p>
+            <p>Tlf: {data[0].phone}</p>
             <p>E-mail: {data[0].email}</p>
+            <p>CVR-nummer: {data[0].cvr_number}</p>
           </article>
         )}
       </div>

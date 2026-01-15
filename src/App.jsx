@@ -29,6 +29,7 @@ import EditPartner from "./admin/pages/about/EditPartner";
 import AdminReviews from "./admin/pages/home/AdminReviews";
 import EditReview from "./admin/pages/home/EditReview";
 import EditArticle from "./admin/pages/news/EditArticle";
+import EditEvent from "./admin/pages/about/EditEvent";
 
 function App() {
   return (
@@ -69,12 +70,12 @@ function App() {
           <Route path="raadgiverne/ny-raadgiver" element={<EditAdvisor />} />
           <Route path="samarbejdspartnere" element={<AdminPartners />} />
           <Route
-            path="samarbejdspartnere/:partnerId"
-            element={<EditPartner />}
+            path="samarbejdspartnere/:eventId"
+            element={<EditEvent />}
           />
           <Route
-            path="samarbejdspartnere/ny-samarbejdspartner"
-            element={<EditPartner />}
+            path="samarbejdspartnere/ny-event"
+            element={<EditEvent />}
           />
           <Route path="paedagogisk-tilgang" element={<AdminApproach />} />
           <Route path="nyheder" element={<AdminNews />} />

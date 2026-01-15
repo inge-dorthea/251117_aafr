@@ -18,7 +18,7 @@ const AdminPartners = () => {
   const [loading, setLoading] = useState(true);
 
   //* get data
-  const data = getData("partners", null);
+  const data = getData("events", null);
 
   useEffect(() => {
     if(data) setLoading(false);
@@ -35,9 +35,9 @@ const AdminPartners = () => {
 
   const handleDelete = () => {
     deleteData({
-      table: "partners",
+      table: "events",
       id: deletionItem.id,
-      folder: "partners/",
+      folder: "events/",
       image: deletionItem.img_url,
       navigate: null,
       path: null,
@@ -63,16 +63,16 @@ const AdminPartners = () => {
       )}
 
       <section>
-        <h2 className="text-2xl mb-1">Redigér i samarbejdspartnerne</h2>
+        <h2 className="text-2xl mb-1">Redigér i events</h2>
         {data && (
           <>
             <div className="mb-3 flex justify-between">
               <button className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200">
                 <Link
-                  to={"/admin/samarbejdspartnere/ny-samarbejdspartner"}
+                  to={"/admin/samarbejdspartnere/ny-event"}
                   className="h-full w-full"
                 >
-                  Opret ny samarbejdspartner
+                  Opret ny event
                 </Link>
               </button>
               <NextPrev
@@ -91,10 +91,8 @@ const AdminPartners = () => {
                     className="py-5 px-6 border border-gray-400 rounded-xs"
                   >
                     <figure className="flex justify-between gap-3">
-                      <figcaption className="flex flex-col justify-between w-full">
-                        <h3 className="text-lg font-semibold text-center mb-1">
-                          {item.partner}
-                        </h3>
+                      <figcaption className="flex flex-col justify-center w-full">
+                        
                         <div className="flex justify-center gap-4">
                           <button className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200">
                             <Link
@@ -125,9 +123,9 @@ const AdminPartners = () => {
                       </figcaption>
                       <img
                         src={getImage(
-                          "partners/" + item.id + "/" + item.img_url
+                          "events/" + item.id + "/" + item.img_url
                         )}
-                        alt={item.partner + "'s logo"}
+                        alt={item.img_alt}
                         className="w-[20vw] object-fit border"
                       />
                     </figure>
