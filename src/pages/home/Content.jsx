@@ -4,7 +4,7 @@ import { getData } from "../../data/functions";
 
 //* components
 import Loading from "../../components/Loading";
-import PageNotFound from "../PageNotFound";
+import FallbackContent from "../FallbackContent";
 
 //* react
 import { useEffect, useState } from "react";
@@ -22,8 +22,6 @@ const Content = () => {
   const contactData = getData("contact-info", null);
 
   useEffect(() => {
-    console.log(data);
-    console.log(contactData);
     if (
       (data && data.length > 0 && contactData && contactData.length > 0) ||
       (data && data.length > 0 && contactData == null) ||
@@ -50,10 +48,12 @@ const Content = () => {
   return (
     <>
       {loading && <Loading />}
-      {data == null && <PageNotFound />}
+      {/* fallback content v */}
+      {data == null && <FallbackContent />}
+      {/* fallback content ^ */}
       {data && (
         <div className="w-[80vw] m-auto py-10">
-          {/* what they offer */}
+          {/* what they offer v */}
           <section className="mb-10 bg-[#ffc784] py-4 px-6 rounded-l-xs rounded-r-xs md:rounded-r-full">
             {data[0] && (
               <article className="sm:w-full md:w-[90%] lg:w-[90%]">
@@ -67,9 +67,10 @@ const Content = () => {
               </article>
             )}
           </section>
+          {/* what they offer ^ */}
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 md:gap-8 lg:gap-30">
-            {/* three text boxes with info */}
+            {/* three text boxes with info v */}
             <section className="order-2 md:order-1 my-3 flex justify-between min-h-[230px] max-h-[290px]">
               <div className="sm:text-7xl md:text-5xl lg:text-7xl flex flex-col justify-evenly border border-r-5 h-full bg-[#ffc784]">
                 <button
@@ -100,8 +101,9 @@ const Content = () => {
                 </article>
               )}
             </section>
+            {/* three text boxes with info ^ */}
 
-            {/* text box about calling them */}
+            {/* text box about calling them v */}
             <section className="order-1 md:order-2 my-3 flex justify-between min-h-[230px] max-h-[290px]">
               {data[1] && (
                 <article className="h-full overflow-x-scroll border-t-5 w-full py-2 px-4">
@@ -124,6 +126,7 @@ const Content = () => {
                 <BsFillTelephoneFill />
               </div>
             </section>
+            {/* text box about calling them ^ */}
           </div>
         </div>
       )}

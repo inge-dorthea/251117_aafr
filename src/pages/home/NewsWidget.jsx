@@ -1,4 +1,4 @@
-//*functions
+//* functions
 import { getData } from "../../data/functions";
 import readText from "../../admin/components/RichTextEditor/readText";
 
@@ -22,7 +22,7 @@ const NewsWidget = () => {
   }, [newsData]);
 
   //  * return
-  if (newsData == null) return null;
+  if (newsData == null) return null; // the widget doesn't show if there's no data
   else if (newsData && newsData[0])
     return (
       <>
@@ -33,9 +33,9 @@ const NewsWidget = () => {
               <BsNewspaper />
             </div>
             <div className="text-end md:w-[80%] lg:w-auto">
-              <h2 className="md:text-xl lg:text-2xl">Seneste nyhed</h2>
+              <h2 className="text-xl lg:text-2xl">Seneste nyhed</h2>
               <Link to="/nyheder" >
-              <article className="mt-2">
+              <article className="mt-3">
                 <h3 className="text-md">{newsData[0].headline}</h3>
                 <p className="text-xs">{newsData[0].created_at.slice(0, 10)}</p>
                 <div className="text-sm break-all">

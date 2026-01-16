@@ -1,8 +1,10 @@
-import React from "react";
+//* import
+// components
 import Content from "./Content";
 import NewsWidget from "./NewsWidget";
 import ReviewWidget from "./ReviewWidget";
 
+//* component
 const Home = () => {
   return (
     <>

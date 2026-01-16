@@ -1,25 +1,48 @@
-import { getData } from "../data/functions";
-import readText from "../admin/components/RichTextEditor/readText";
+//* import
+// react
 import { useState, useEffect } from "react";
-import Loading from "../components/Loading";
 import { BsEnvelope } from "react-icons/bs";
 import { BsFillGeoAltFill } from "react-icons/bs";
 import { BsFillTelephoneFill } from "react-icons/bs";
 
+// own functionality
+import { getData } from "../data/functions";
+import readText from "../admin/components/RichTextEditor/readText";
+
+// components
+import Loading from "../components/Loading";
+import FallbackContent from "./FallbackContent";
+
+//* component
 const Contact = () => {
+  //* loading and data
   const [loading, setLoading] = useState(true);
 
   const textData = getData("static-pages", null);
   const contactData = getData("contact-info", null);
 
   useEffect(() => {
-    if (textData && contactData) setLoading(false);
+    if (
+      (textData == null && contactData == null) ||
+      (textData == null && contactData && contactData.length > 0) ||
+      (textData &&
+        textData.length > 0 &&
+        contactData &&
+        contactData.length > 0) ||
+      (textData && textData.length > 0 && contactData == null)
+    )
+      setLoading(false);
   }, [textData, contactData]);
 
+  //* return
   return (
     <>
       <title>Kontakt</title>
       {loading && <Loading />}
+      {/* fallback content v */}
+      {textData == null && <FallbackContent />}
+      {/* fallback content ^ */}
+      {/* text v */}
       <section className="py-10">
         {textData[10] && (
           <article className="w-[80vW] m-auto">
@@ -48,7 +71,8 @@ const Contact = () => {
           </article>
         )}
       </section>
-
+      {/* text ^ */}
+      {/* contact-circles v */}
       {contactData[0] && (
         <section className="bg-[#ffc784] py-10">
           <div className="w-[80vw] grid grid-cols-1 sm:grid-cols-3 mx-auto gap-5 md:gap-20">
@@ -85,6 +109,7 @@ const Contact = () => {
           </div>
         </section>
       )}
+      {/* contact-circles ^ */}
     </>
   );
 };

@@ -12,6 +12,7 @@ import Approach from "./pages/about/Approach";
 import News from "./pages/News";
 import Contact from "./pages/Contact";
 import PageNotFound from "./pages/PageNotFound";
+import Collaboration from "./pages/about/collaboration/Collaboration";
 
 //* admin pages
 import LayoutAdmin from "./admin/layout/LayoutAdmin";
@@ -39,7 +40,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="raadgiverne" element={<Advisors />} />
-          <Route path="samarbejdspartnere" element={<Partners />} />
+          <Route path="samarbejde" element={<Collaboration />} />
           <Route path="paedagogisk-tilgang" element={<Approach />} />
           <Route path="nyheder" element={<News />} />
           <Route path="kontakt" element={<Contact />} />
