@@ -14,6 +14,21 @@ export const createSupabaseClient = () => {
 //* create client for data functions
 const supabase = createSupabaseClient();
 
+//* sign out
+export const signOut = async () => {
+  try {
+  const { error } = await supabase.auth.signOut({ scope: "local" });
+
+  if (error) {
+    console.log("Error signing out: " + error.message);
+  } else {
+    window.location.reload();
+  }
+  } catch (err) {
+    console.log("Unexpected error: " + err);
+  }
+};
+
 //* get data function
 export const getData = (table, id) => {
   const [res, setRes] = useState([]);
@@ -280,12 +295,11 @@ export const deleteImage = async (folder, fileName) => {
 //* get image function
 export const getImage = (filepath) => {
   try {
-    const {data} = supabase.storage.from("images"). getPublicUrl(filepath);
+    const { data } = supabase.storage.from("images").getPublicUrl(filepath);
 
     return data.publicUrl;
-  }
-  catch (err) {
+  } catch (err) {
     console.log("Unexpected error: " + err);
     return null;
   }
-} // END getImage
+}; // END getImage

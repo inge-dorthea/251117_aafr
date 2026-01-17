@@ -63,8 +63,8 @@ const StaticPageForm = ({ id, height }) => {
         <Loading />
       )}
       {textData && (
-        <form onSubmit={handleSubmit} className="px-9 py-7 border border-gray-400 rounded-xs">
-          <div className="grid grid-cols-3 px-4 pb-4">
+        <form onSubmit={handleSubmit} className="px-3 sm:px-9 py-7 border border-gray-400 rounded-xs bg-[#87d69937]">
+          <div className="grid grid-cols-1 lg:grid-cols-3 px-4 pb-4">
             <Input
               type="text"
               name="title"
@@ -83,7 +83,7 @@ const StaticPageForm = ({ id, height }) => {
 
           <RichTextEditor iV={textData} height={height} setData={setTextData} />
 
-          <div className="flex justify-between pt-4">
+          <div className="flex flex-col gap-5 sm:flex-row items-center sm:justify-between pt-4">
             <SaveButton />
             {reloading ? null : <LastUpdated table="static-pages" id={id} />}
           </div>

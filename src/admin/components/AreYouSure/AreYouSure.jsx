@@ -1,4 +1,6 @@
+//* component
 const AreYouSure = ({ doFunction, setShowModal }) => {
+  //* return
   return (
     <div
       onClick={() => setShowModal(false)}
@@ -6,10 +8,10 @@ const AreYouSure = ({ doFunction, setShowModal }) => {
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="bg-gray-50 w-[40vw] m-auto my-30 p-2 pt-5 border-2 border-red-900 rounded-sm shadow-xs shadow-red-400"
+        className="bg-gray-50 sm:w-[40vw] mx-5 sm:mx-auto my-30 p-2 pt-5 border-2 border-red-900 rounded-sm shadow-xs shadow-red-400"
       >
         <p className="text-center text-lg">Er du sikker på, at du vil slette?</p>
-        <div className="flex justify-evenly mt-5 mb-2">
+        <div className="flex justify-evenly gap-5 mt-5 mb-2">
           <button
             onClick={doFunction}
             className="pt-1 pb-2 px-3 border border-gray-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-600 hover:border-gray-200"

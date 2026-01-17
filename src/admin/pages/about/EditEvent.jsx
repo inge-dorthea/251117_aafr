@@ -1,8 +1,7 @@
 //* imports
 // react
-import { useParams } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 
 // components
 import Input from "../../components/forms/Input";
@@ -38,6 +37,10 @@ const EditEvent = () => {
   const [image, setImage] = useState(null);
 
   //* handle submit - update/post
+  const [postSucces, setPostSucces] = useState(
+    "error message won't show until the post function has failed"
+  );
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -76,7 +79,7 @@ const EditEvent = () => {
         body: body,
         newImage: newImage,
         folder: "events/",
-      });
+      }).then((res) => setPostSucces(res));
     } // END if posting a new event
   }; // END handleSubmit
 
@@ -95,99 +98,120 @@ const EditEvent = () => {
     });
   }; //END handle delete
 
-  //* component
+  //* return
   return (
-    <div className="w-[80vw] m-auto flex flex-col">
-      {showModal && (
-        <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
-      )}
-      {loading && <Loading />}
+    <>
+      <title>Admin: Event</title>
+      <div className="mx-5 flex flex-col">
+        {loading && <Loading />}
+        {/* deletion modal v */}
+        {showModal && (
+          <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+        )}
+        {/* deletion modal ^ */}
+        {/* go back v */}
+        <Link
+          to={"/admin/samarbejde"}
+          className="mb-3 pt-4 pb-5 w-full text-center border border-gray-300 bg-[#fdc684] rounded-xs cursor-pointer box-border hover:bg-[#ffb75f] hover:border-gray-200"
+        >
+          Tilbage til samarbejde
+        </Link>
+        {/* go back ^ */}
+        {/* form v */}
+        {(dataArray == null || dataArray.length != 0) && (
+          <div className="py-5 px-6 bg-[#87d69937] border border-gray-400 rounded-xs">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              {/* image v */}
+              <figure className="mx-auto w-[60%] sm:w-[30%] lg:w-[25%]">
+                <img
+                  src={
+                    image
+                      ? image
+                      : dataArray
+                      ? getImage(
+                          "events/" + eventId + "/" + dataArray[0]?.img_url
+                        )
+                      : null
+                  }
+                  alt={"Eventets billede"}
+                  className="object-cover mx-auto w-full rounded-xs"
+                />
+              </figure>
+              {/* image ^ */}
+              <div className="w-full">
+                {/* inputs v */}
 
-      {(dataArray == null || dataArray.length != 0) && (
-        <div className="py-5 px-6 border border-gray-400 rounded-xs">
-          <form
-            onSubmit={handleSubmit}
-            className="flex justify-between gap-3"
-          >
-            <div className="w-full">
                 <div className="mb-3">
-                <Input
-                  type="file"
-                  name="image"
-                  label="Event-billede"
-                  setImage={setImage}
-                />
-              </div>
-              <div className="mb-3">
-                <Input
-                  type="text"
-                  name="img_alt"
-                  label="Alternativ tekst til billede"
-                  defaultValue={
-                    dataArray == null ? null : dataArray[0]?.img_alt
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <Input
-                  type="text"
-                  name="img_desc"
-                  label="Billedtekst til under billedet"
-                  defaultValue={
-                    dataArray == null ? null : dataArray[0]?.img_desc
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <Input
-                  type="number"
-                  name="order"
-                  label="Nummer i rækkefølgen"
-                  defaultValue={
-                    dataArray == null ? null : dataArray[0]?.order
-                  }
-                />
-              </div>
+                  <Input
+                    type="file"
+                    name="image"
+                    label="Event-billede"
+                    setImage={setImage}
+                  />
+                </div>
+                <div className="mb-3">
+                  <Input
+                    type="text"
+                    name="img_alt"
+                    label="Alternativ tekst til billede"
+                    defaultValue={
+                      dataArray == null ? null : dataArray[0]?.img_alt
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <Input
+                    type="text"
+                    name="img_desc"
+                    label="Billedtekst til under billedet"
+                    defaultValue={
+                      dataArray == null ? null : dataArray[0]?.img_desc
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <Input
+                    type="number"
+                    name="order"
+                    label="Nummer i rækkefølgen"
+                    defaultValue={
+                      dataArray == null ? null : dataArray[0]?.order
+                    }
+                  />
+                </div>
+                {/* inputs ^ */}
+                {/* buttons v */}
+                <div className="flex flex-wrap justify-evenly sm:justify-end gap-4">
+                  {/* error message v */}
+                  {postSucces == null && (
+                    <p>Noget gik galt, prøv igen eller kom tilbage senere.</p>
+                  )}
+                  {/* error message ^ */}
+                  <SaveButton />
 
-              <div className="flex justify-end gap-4">
-                <SaveButton />
-
-                {dataArray != null && (
-                  <button
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setShowModal(true);
-                    }}
-                    className="pt-4 pb-5 px-5 border border-red-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-500 hover:border-red-200"
-                  >
-                    Slet
-                  </button>
-                )}
-                {dataArray != null && (
-                  <LastUpdated table="events" id={dataArray[0]?.id} />
-                )}
+                  {dataArray != null && (
+                    <button
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setShowModal(true);
+                      }}
+                      className="pt-4 pb-5 px-5 border border-red-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-500 hover:border-red-200"
+                    >
+                      Slet
+                    </button>
+                  )}
+                  {dataArray != null && (
+                    <LastUpdated table="events" id={dataArray[0]?.id} />
+                  )}
+                </div>
+                {/* buttons ^ */}
               </div>
-            </div>
-
-            <figure className="size-fit my-auto">
-              <img
-                src={
-                  image
-                    ? image
-                    : dataArray
-                    ? getImage(
-                        "events/" + eventId + "/" + dataArray[0]?.img_url
-                      )
-                    : null
-                }
-                alt={"Eventets billede"}
-                className="object-cover w-[30vw]"
-              />
-            </figure>
-          </form>
-        </div>
-      )}
-    </div>
+            </form>
+          </div>
+        )}
+        {/* form ^ */}
+      </div>
+    </>
   );
 };
 

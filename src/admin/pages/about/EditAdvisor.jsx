@@ -1,8 +1,7 @@
 //* imports
 // react
-import { useParams } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 
 // components
 import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
@@ -13,7 +12,13 @@ import AreYouSure from "../../components/AreYouSure/AreYouSure";
 import Loading from "../../../components/Loading";
 
 // own functionality
-import {getData, getImage, postData, deleteData, updateWithImage } from "../../../data/functions";
+import {
+  getData,
+  getImage,
+  postData,
+  deleteData,
+  updateWithImage,
+} from "../../../data/functions";
 
 //* component
 const EditAdvisor = () => {
@@ -30,13 +35,18 @@ const EditAdvisor = () => {
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.description);
-    if(dataArray || advisorId == undefined) setLoading(false);
+    if ((dataArray && dataArray.length > 0) || advisorId == undefined)
+      setLoading(false);
   }, [dataArray]);
 
   //* setImage to show a preview of the image chosen through file-input
   const [image, setImage] = useState(null);
 
   //* handle submit
+  const [postSucces, setPostSucces] = useState(
+    "error message won't show until the post function has failed"
+  );
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -76,7 +86,7 @@ const EditAdvisor = () => {
         body: body,
         newImage: newImage,
         folder: "advisors/",
-      });
+      }).then((res) => setPostSucces(res));
     } // END if posting a new advisor
   }; // END handleSubmit
 
@@ -95,77 +105,30 @@ const EditAdvisor = () => {
     });
   };
 
-  //* component
+  //* return
   return (
-    <div className="mb-3 w-[80vw] flex flex-col m-auto">
-      {showModal && (
-        <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
-      )}
-      {loading && (
-        <Loading />
-      )}
-
-      {(dataArray == null || (dataArray.length != 0 && textData)) && (
-        <div className="py-5 ps-6 pe-16 bg-orange-300 rounded-l-xs rounded-r-full">
-          <form onSubmit={handleSubmit} className="flex justify-between gap-3">
-            <div className="w-full">
-              <div className="mb-3">
-                <Input
-                  type="text"
-                  name="name"
-                  label="Rådgiverens navn"
-                  defaultValue={dataArray == null ? null : dataArray[0]?.name}
-                />
-              </div>
-
-              <div className="mb-3">
-                <Input
-                  type="file"
-                  name="image"
-                  label="Billede af rådgiveren"
-                  setImage={setImage}
-                />
-              </div>
-
-              <div className="mb-3">
-                <Input
-                  type="number"
-                  name="order"
-                  label="Nummer i rækkefølgen"
-                  defaultValue={dataArray ? dataArray[0]?.order : null}
-                />
-              </div>
-
-              <div className="mb-3">
-                {!showModal && (
-                  <RichTextEditor
-                    iV={textData}
-                    height="h-[200px]"
-                    setData={setTextData}
-                  />
-                )}
-              </div>
-              <div className="flex justify-end gap-4">
-                <SaveButton />
-
-                {dataArray != null && (
-                  <button
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setShowModal(true);
-                    }}
-                    className="pt-4 pb-5 px-5 border border-red-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-500 hover:border-red-200"
-                  >
-                    Slet
-                  </button>
-                )}
-                {dataArray != null && (
-                  <LastUpdated table="advisors" id={dataArray[0]?.id} />
-                )}
-              </div>
-            </div>
-
-            <figure className="size-fit my-auto">
+    <>
+      <title>Admin: Rådgiver</title>
+      <div className="mb-3 mx-5 flex flex-col">
+        {loading && <Loading />}
+        {/* deletion modal v */}
+        {showModal && (
+          <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+        )}
+        {/* deletion modal ^ */}
+        {/* go back v */}
+        <Link
+          to={"/admin/raadgiverne"}
+          className="mb-3 pt-4 pb-5 w-full text-center border border-gray-300 bg-[#fdc684] rounded-xs cursor-pointer box-border hover:bg-[#ffb75f] hover:border-gray-200"
+        >
+          Tilbage til rådgiverne
+        </Link>
+        {/* go back ^ */}
+        {/* form v */}
+        {(dataArray == null || (dataArray.length != 0 && textData)) && (
+          <div className="py-5 ps-6 pe-6 bg-[#87d69937] rounded-xs flex flex-col gap-5">
+            {/* image v */}
+            <figure className="mx-auto w-[60%] sm:w-[30%] lg:w-[25%]">
               <img
                 src={
                   image
@@ -177,13 +140,85 @@ const EditAdvisor = () => {
                     : null
                 }
                 alt={"Billede af rådgiveren"}
-                className="object-cover w-[30vw] rounded-full"
+                className="object-cover mx-auto w-full rounded-xs"
               />
             </figure>
-          </form>
-        </div>
-      )}
-    </div>
+            {/* image ^ */}
+            <form
+              onSubmit={handleSubmit}
+              className="flex justify-between gap-3"
+            >
+              <div className="w-full">
+                {/* inputs v */}
+                <div className="mb-3">
+                  <Input
+                    type="text"
+                    name="name"
+                    label="Rådgiverens navn"
+                    defaultValue={dataArray == null ? null : dataArray[0]?.name}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <Input
+                    type="file"
+                    name="image"
+                    label="Billede af rådgiveren"
+                    setImage={setImage}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <Input
+                    type="number"
+                    name="order"
+                    label="Nummer i rækkefølgen"
+                    defaultValue={dataArray ? dataArray[0]?.order : null}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  {!showModal && (
+                    <RichTextEditor
+                      iV={textData}
+                      height="h-[200px]"
+                      setData={setTextData}
+                    />
+                  )}
+                </div>
+                {/* inputs ^ */}
+                {/* buttons v */}
+                <div className="flex flex-wrap justify-evenly sm:justify-end gap-4">
+                  {/* error message v */}
+                  {postSucces == null && (
+                    <p>Noget gik galt, prøv igen eller kom tilbage senere.</p>
+                  )}
+                  {/* error message ^ */}
+                  <SaveButton />
+
+                  {dataArray != null && (
+                    <button
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setShowModal(true);
+                      }}
+                      className="pt-4 pb-5 px-5 border border-red-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-500 hover:border-red-200"
+                    >
+                      Slet
+                    </button>
+                  )}
+                  {dataArray != null && (
+                    <LastUpdated table="advisors" id={dataArray[0]?.id} />
+                  )}
+                </div>
+                {/* buttons ^ */}
+              </div>
+            </form>
+          </div>
+        )}
+        {/* form ^ */}
+      </div>
+    </>
   );
 };
 

@@ -17,16 +17,11 @@ import { deleteData } from "../../../data/functions";
 
 //* component
 const AdminAdvisors = () => {
-  const [loading, setLaoding] = useState(true);
-  //* get data:
+  //* data
   const data = getData("advisors", null);
 
-  useEffect(() => {
-    if(data) setLaoding(false);
-  }, [data])
-
   //* pagination
-  const itemsPerPage = 4;
+  const itemsPerPage = 5;
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   //* deleting an advisor
@@ -46,34 +41,45 @@ const AdminAdvisors = () => {
 
   //* return
   return (
-    <div className="w-[80vw] flex flex-col m-auto">
+    <>
+    <title>Admin: Rådgiverne</title>
+    <div className="mx-5 flex flex-col">
+      {/* deletion modal v */}
       {showModal && (
         <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
       )}
-      {loading && (
-        <Loading />
-      )}
+      {/* deletion modal ^ */}
+      {/* heading v */}
       <h1 className="text-4xl text-center mb-3">Om os - Rådgiverne</h1>
-
+      {/* heading ^ */}
+      {/* text editor v */}
       <section className="mb-6">
         <h2 className="text-2xl mb-1">Redigér i den generelle beskrivelse</h2>
         <StaticPageForm id={"6"} height="h-[200px]" />
       </section>
-
+      {/* text editor ^ */}
+      {/* advisors v */}
       <section>
-        <h2 className="text-2xl mb-1">Redigér i rådgiverne</h2>
-
+        {/* error message v */}
+        {data == null && (
+          <p>
+            Noget gik galt ved indlæsning af rådgiverne. Prøv at genindlæse
+            siden eller kom igen senere.
+          </p>
+        )}
+        {/* error message ^ */}
         {data && (
           <>
-            <div className="mb-3 flex justify-between">
-              <button className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200">
-                <Link
-                  to={"/admin/raadgiverne/ny-raadgiver"}
-                  className="h-full w-full"
-                >
-                  Opret ny rådgiver
-                </Link>
-              </button>
+            <h2 className="text-2xl mb-1">Redigér i rådgiverne</h2>
+
+            {/* buttons v */}
+            <div className="mb-3 flex flex-wrap gap-5 justify-evenly sm:justify-between">
+              <Link
+                to={"/admin/raadgiverne/ny-raadgiver"}
+                className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200"
+              >
+                Opret ny rådgiver
+              </Link>
               <NextPrev
                 itemsPerPage={itemsPerPage}
                 currentPageIndex={currentPageIndex}
@@ -81,7 +87,8 @@ const AdminAdvisors = () => {
                 length={data.length}
               />
             </div>
-
+            {/* buttons ^ */}
+            {/* advisor v */}
             <div className="flex flex-col gap-4 mb-3">
               {data
                 .slice(currentPageIndex, currentPageIndex + itemsPerPage)
@@ -89,10 +96,20 @@ const AdminAdvisors = () => {
                   return (
                     <div
                       key={index}
-                      className="py-5 ps-6 pe-16 bg-orange-300 rounded-l-xs rounded-r-full"
+                      className="py-5 ps-6 pe-6 bg-[#87d69937] rounded-xs"
                     >
-                      <figure className="flex justify-between gap-3">
+                      <figure className="flex flex-col lg:flex-row justify-between items-center gap-3">
+                        {/* picture v */}
+                        <img
+                          src={getImage(
+                            "advisors/" + item.id + "/" + item.img_url
+                          )}
+                          alt={"Billede af " + item.name}
+                          className="object-cover w-[60%] sm:w-[30%] lg:w-[25%] rounded-xs"
+                        />
+                        {/* picture ^ */}
                         <figcaption className="flex flex-col justify-between w-full">
+                          {/* text v */}
                           <article className="text-sm">
                             <h3 className="text-lg font-semibold">
                               {item.name}
@@ -103,15 +120,15 @@ const AdminAdvisors = () => {
                                 readText(item, index)
                               )}
                           </article>
-                          <div className="flex justify-end gap-4">
-                            <button className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200">
-                              <Link
-                                to={"/admin/raadgiverne/" + item.id}
-                                className="h-full w-full"
-                              >
-                                Redigér
-                              </Link>
-                            </button>
+                          {/* text ^ */}
+                          {/* buttons v */}
+                          <div className="flex flex-wrap justify-end gap-4">
+                            <Link
+                              to={"/admin/raadgiverne/" + item.id}
+                              className="pt-4 pb-5 px-5 border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200"
+                            >
+                              Redigér
+                            </Link>
                             <button
                               onClick={(event) => {
                                 event.preventDefault();
@@ -128,20 +145,14 @@ const AdminAdvisors = () => {
                             </div>
                             <LastUpdated table="advisors" id={item.id} />
                           </div>
+                          {/* buttons ^ */}
                         </figcaption>
-                        <img
-                          src={getImage(
-                            "advisors/" + item.id + "/" + item.img_url
-                          )}
-                          alt={"Billede af " + item.name}
-                          className="object-cover w-[15vw] rounded-full"
-                        />
                       </figure>
                     </div>
                   );
                 })}
             </div>
-
+            {/* advisor ^ */}
             <div className="mb-3">
               <NextPrev
                 itemsPerPage={itemsPerPage}
@@ -153,7 +164,10 @@ const AdminAdvisors = () => {
           </>
         )}
       </section>
+      {/* advisors ^ */}
     </div>
+    </>
+    
   );
 };
 

@@ -19,10 +19,14 @@ import {
   postData,
   deleteData,
 } from "../../../data/functions";
+import { useReload } from "../../components/LastUpdated/useReload";
 
 //* component
 const EditReview = () => {
   const [loading, setLoading] = useState(true);
+
+  //* reload-function for LastUpdated-component
+  const [reload, reloading] = useReload();
 
   //* get data if there's an id in the params
   const { reviewId } = useParams();
@@ -34,10 +38,15 @@ const EditReview = () => {
 
   useEffect(() => {
     dataArray && setTextData(dataArray[0]?.review);
-    if (dataArray || reviewId == undefined) setLoading(false);
+    if ((dataArray && dataArray.length > 0) || reviewId == undefined)
+      setLoading(false);
   }, [dataArray]);
 
   //* handle submit
+  const [postSucces, setPostSucces] = useState(
+    "error message won't show until the post function has failed"
+  );
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -62,8 +71,11 @@ const EditReview = () => {
         body: body,
         newImage: null,
         folder: null,
-      });
+      }).then((res) => setPostSucces(res));
     } // END if posting a new advisor
+
+    // reload LastUpdated-component
+    reload();
   }; // END handleSubmit
 
   //* deleting review
@@ -81,76 +93,93 @@ const EditReview = () => {
     });
   };
 
+  //* return
   return (
-    <section className="mb-3 w-[80vw] flex flex-col m-auto">
-      {showModal && (
-        <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
-      )}
-      {loading && <Loading />}
+    <>
+      <title>Admin: Udtalelse</title>
+      <section className="mb-3 mx-5 flex flex-col m-auto">
+        {loading && <Loading />}
+        {/* deletion modal v */}
+        {showModal && (
+          <AreYouSure doFunction={handleDelete} setShowModal={setShowModal} />
+        )}
+        {/* deletion modal ^ */}
+        {/* go back v */}
+        <Link
+          to={"/admin/forside/udtalelser"}
+          className="mb-3 pt-4 pb-5 w-full text-center border border-gray-300 bg-[#fdc684] rounded-xs cursor-pointer box-border hover:bg-[#ffb75f] hover:border-gray-200"
+        >
+          Tilbage til udtalelser
+        </Link>
+        {/* go back ^ */}
+        {(dataArray == null || (dataArray.length != 0 && textData)) && (
+          <div className="border border-gray-300 rounded-xs py-5 px-6 bg-[#87d69937]">
+            <form onSubmit={handleSubmit}>
+              <div className="w-full">
+                {/* edit review v */}
 
-      <Link
-        to={"/admin/forside/udtalelser"}
-        className="mb-3 pt-4 pb-5 w-full text-center border border-gray-300 bg-gray-50 rounded-xs cursor-pointer box-border hover:bg-gray-100 hover:border-gray-200"
-      >
-        Tilbage til udtalelser
-      </Link>
-
-      {(dataArray == null || (dataArray.length != 0 && textData)) && (
-        <div className="border border-gray-300 rounded-xs py-5 px-6">
-          <form onSubmit={handleSubmit}>
-            <div className="w-full">
-              <div className="mb-3">
-                <Input
-                  type="text"
-                  name="reviewer"
-                  label="Hvem"
-                  defaultValue={
-                    dataArray == null ? null : dataArray[0]?.reviewer
-                  }
-                />
-              </div>
-
-              <div className="mb-3">
-                <Input
-                  type="number"
-                  name="order"
-                  label="Nummer i rækkefølgen"
-                  defaultValue={dataArray ? dataArray[0]?.order : null}
-                />
-              </div>
-
-              <div className="mb-3">
-                {!showModal && (
-                  <RichTextEditor
-                    iV={textData}
-                    height="h-[200px]"
-                    setData={setTextData}
+                <div className="mb-3">
+                  <Input
+                    type="text"
+                    name="reviewer"
+                    label="Hvem"
+                    defaultValue={
+                      dataArray == null ? null : dataArray[0]?.reviewer
+                    }
                   />
-                )}
-              </div>
-              <div className="flex justify-end gap-4">
-                <SaveButton />
+                </div>
 
-                {dataArray != null && (
-                  <button
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setShowModal(true);
-                    }}
-                    className="pt-4 pb-5 px-5 border border-red-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-500 hover:border-red-200"
-                  >
-                    Slet
-                  </button>
-                )}
-                {dataArray != null && (
-                  <LastUpdated table="advisors" id={dataArray[0]?.id} />
-                )}
+                <div className="mb-3">
+                  <Input
+                    type="number"
+                    name="order"
+                    label="Nummer i rækkefølgen"
+                    defaultValue={dataArray ? dataArray[0]?.order : null}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  {!showModal && (
+                    <RichTextEditor
+                      iV={textData}
+                      height="h-[200px]"
+                      setData={setTextData}
+                    />
+                  )}
+                </div>
+                {/* edit review ^ */}
+                {/* buttons+ v */}
+                <div className="flex flex-wrap justify-evenly sm:justify-end gap-4">
+                  {/* error message v */}
+                  {postSucces == null && (
+                    <p>Noget gik galt, prøv igen eller kom tilbage senere.</p>
+                  )}
+                  {/* error message ^ */}
+                  <SaveButton />
+
+                  {dataArray != null && (
+                    <button
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setShowModal(true);
+                      }}
+                      className="pt-4 pb-5 px-5 border border-red-300 bg-red-400 rounded-sm cursor-pointer box-border hover:bg-red-500 hover:border-red-200"
+                    >
+                      Slet
+                    </button>
+                  )}
+                  {dataArray != null &&
+                    (reloading ? null : (
+                      <LastUpdated table="reviews" id={dataArray[0]?.id} />
+                    ))}
+                </div>
+                {/* buttons+ ^ */}
               </div>
-            </div>
-          </form>
-        </div>
-      )}
-    </section>
+            </form>
+          </div>
+        )}
+      </section>
+    </>
   );
 };
 

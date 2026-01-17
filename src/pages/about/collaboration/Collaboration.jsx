@@ -85,6 +85,7 @@ const Collaboration = () => {
                   onClick={() => {setShowLightBox(true); setItem(item)}}
                   src={getImage("events/" + item.id + "/" + item.img_url)}
                   alt={item.img_alt}
+                  className="cursor-pointer"
                 />
               </figure>
             ))}

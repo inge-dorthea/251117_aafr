@@ -1,7 +1,10 @@
 //* imports
+// react
 import {  useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
+
+// own functionality
 import { createSupabaseClient } from "../../data/functions";
 
 //* component

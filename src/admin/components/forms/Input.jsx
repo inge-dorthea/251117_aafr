@@ -1,5 +1,3 @@
-import React from "react";
-
 const Input = ({ type, name, label, defaultValue, span, setImage }) => {
 
   const onImageChange = (event) => {
@@ -11,7 +9,7 @@ const Input = ({ type, name, label, defaultValue, span, setImage }) => {
 
   if (type == "file")
     return (
-      <div className={`${span} flex gap-3 jusitfy-start`}>
+      <div className={`${span} sm:flex gap-3 justify-start`}>
         <label htmlFor={name} className="h-fit my-auto">
           {label}:
         </label>
@@ -35,7 +33,7 @@ const Input = ({ type, name, label, defaultValue, span, setImage }) => {
     );
   else
     return (
-      <div className={`${span} flex gap-3 justify-start`}>
+      <div className={`${span} sm:flex gap-3 justify-start`}>
         <label htmlFor={name} className="h-fit my-auto break-keep">
           {label}:
         </label>
@@ -45,6 +43,7 @@ const Input = ({ type, name, label, defaultValue, span, setImage }) => {
           id={name}
           defaultValue={defaultValue}
           className="w-full bg-white border border-gray-300 px-2 pt-1 pb-2 focus:border-o focus:outline-2 outline-blue-300 rounded-xs box-border"
+        required
         />
       </div>
     );

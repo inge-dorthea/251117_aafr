@@ -1,16 +1,18 @@
-//* react
+//* import
+// react
 import { useState, useEffect } from "react";
 
-//* own functions
+// own functions
 import { useReload } from "../LastUpdated/useReload";
 import { getData, updateData } from "../../../data/functions";
 
-//* components
+// components
 import LastUpdated from "../LastUpdated/LastUpdated";
 import Input from "./Input";
 import SaveButton from "./SaveButton";
 import Loading from "../../../components/Loading";
 
+//* component
 const ContactInfoForm = () => {
   //* set the page to be loading until data has been fetched
   const [loading, setLoading] = useState(true);
@@ -22,14 +24,12 @@ const ContactInfoForm = () => {
   const dataArray = getData("contact-info", "1");
 
   useEffect(() => {
-    if (dataArray) setLoading(false);
+    if (dataArray && dataArray.length > 0) setLoading(false);
   }, [dataArray]);
 
   //* updating data in database
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    setLoading(true);
 
     const date = new Date();
 
@@ -40,13 +40,10 @@ const ContactInfoForm = () => {
       email: event.target.email.value,
       address: event.target.address.value,
       donation: event.target.donation.value,
-      cvr_number: event.target.cvr_number.value
+      cvr_number: event.target.cvr_number.value,
     };
 
-    const updatedData = updateData("contact-info", "1", body);
-
-    
-    if (updatedData) setLoading(false);
+    updateData("contact-info", "1", body);
 
     // reload LastUpdated-component
     reload();
@@ -56,12 +53,14 @@ const ContactInfoForm = () => {
   return (
     <div>
       {loading && <Loading />}
+      {/* form v */}
       {dataArray[0] && (
         <form
           onSubmit={handleSubmit}
-          className="px-9 py-7 border border-gray-400 rounded-xs"
+          className="px-9 py-7 bg-[#87d69937] border border-gray-400 rounded-xs"
         >
-          <div className="grid grid-cols-2 gap-5 pb-4">
+          {/* phone-info inputs v */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pb-4">
             <Input
               type="text"
               name="phone_number"
@@ -75,7 +74,9 @@ const ContactInfoForm = () => {
               defaultValue={dataArray[0].phone_time}
             />
           </div>
-          <div className="grid grid-cols-2 gap-5 pb-4">
+          {/* phone-info inputs ^ */}
+          {/* mail and cvr inputs v */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pb-4">
             <Input
               type="text"
               name="email"
@@ -84,11 +85,23 @@ const ContactInfoForm = () => {
             />
             <Input
               type="text"
+              name="cvr_number"
+              label="CVR nummer"
+              defaultValue={dataArray[0].cvr_number}
+            />
+          </div>
+          {/* mail and cvr inputs ^ */}
+          {/* address input v */}
+          <div className="grid grid-cols-1 pb-4">
+            <Input
+              type="text"
               name="address"
               label="Adresse"
               defaultValue={dataArray[0].address}
             />
           </div>
+          {/* address input ^ */}
+          {/* donation input v */}
           <div className="grid grid-cols-1 pb-4">
             <Input
               type="text"
@@ -96,22 +109,17 @@ const ContactInfoForm = () => {
               label="Kontonummer til donation"
               defaultValue={dataArray[0].donation}
             />
+            {/* donation input ^ */}
           </div>
-          <div className="grid grid-cols-1 pb-4">
-            <Input
-              type="text"
-              name="cvr_number"
-              label="CVR nummer"
-              defaultValue={dataArray[0].cvr_number}
-            />
-          </div>
-
-          <div className="flex justify-between">
+          {/* buttons v */}
+          <div className="flex flex-wrap gap-5 justify-evenly sm:justify-between">
             <SaveButton />
             {reloading ? null : <LastUpdated table="contact-info" id="1" />}
           </div>
+          {/* buttons ^ */}
         </form>
       )}
+      {/* form ^ */}
     </div>
   );
 };
