@@ -92,10 +92,20 @@ const HeaderAdmin = () => {
           {/* sign out v */}
           <li>
             <button
-              onClick={() => signOut()}
+              // sign out locally
+              onClick={() => signOut(true)}
               className="hover:bg-[#fdc684] cursor-pointer pt-1 pb-2 ps-2 pe-3 rounded-r-full"
             >
               Log ud
+            </button>
+          </li>
+          <li>
+            <button
+              // sign out globally
+              onClick={() => signOut(false)}
+              className="hover:bg-[#fdc684] cursor-pointer pt-1 pb-2 ps-2 pe-3 rounded-r-full text-start"
+            >
+              Log denne bruger ud overalt
             </button>
           </li>
           {/* sign out ^ */}

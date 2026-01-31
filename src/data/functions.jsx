@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 
 //* function to create client
 export const createSupabaseClient = () => {
-  const supabaseURL = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseKEY = import.meta.env.VITE_SUPABASE_KEY;
+  const supabaseURL = "https://tvplwgyktqgfvycpgcoi.supabase.co";
+  const supabaseKEY = "sb_publishable_zoqOojEfQs8_K0jE3206GQ_Oq0oSo_A";
 
   const client = createClient(supabaseURL, supabaseKEY);
 
@@ -15,17 +15,31 @@ export const createSupabaseClient = () => {
 const supabase = createSupabaseClient();
 
 //* sign out
-export const signOut = async () => {
-  try {
-  const { error } = await supabase.auth.signOut({ scope: "local" });
+export const signOut = async (local) => {
+  if (local == true) {
+    try {
+      const { error } = await supabase.auth.signOut({ scope: "local" });
 
-  if (error) {
-    console.log("Error signing out: " + error.message);
-  } else {
-    window.location.reload();
-  }
-  } catch (err) {
-    console.log("Unexpected error: " + err);
+      if (error) {
+        console.log("Error signing out: " + error.message);
+      } else {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log("Unexpected error: " + err);
+    }
+  } else if (local != true) {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        console.log("Error signing out: " + error.message);
+      } else {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log("Unexpected error: " + err);
+    }
   }
 };
 

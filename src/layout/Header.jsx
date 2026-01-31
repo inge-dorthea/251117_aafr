@@ -82,7 +82,7 @@ const Header = () => {
         <menu className="sm:flex justify-evenly h-[50px] hidden">
           {/* if showSubMenu = these three locations v it will show */}
           {(showSubMenu == "/raadgiverne" ||
-            showSubMenu == "/samarbejdspartnere" ||
+            showSubMenu == "/samarbejde" ||
             showSubMenu == "/paedagogisk-tilgang") &&
             subMenuItems.map((item, index) => (
               <li

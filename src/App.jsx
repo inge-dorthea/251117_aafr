@@ -52,7 +52,7 @@ function App() {
           element={
             <ProtectedRoute>
               <LayoutAdmin />
-            </ProtectedRoute>
+             </ProtectedRoute>
           }
         >
           <Route index element={<Admin />} />

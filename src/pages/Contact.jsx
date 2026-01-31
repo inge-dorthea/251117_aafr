@@ -44,10 +44,10 @@ const Contact = () => {
       {/* fallback content ^ */}
       {/* text v */}
       <section className="py-10">
-        {textData[10] && (
+        {textData && textData[10] && (
           <article className="w-[80vW] m-auto">
             {textData[10].show_title && (
-              <h1 className="text-3xl text-center mb-2">
+              <h1 className="mb-2 text-3xl text-center">
                 {textData[10].title}
               </h1>
             )}
@@ -57,10 +57,10 @@ const Contact = () => {
             </div>
           </article>
         )}
-        {textData[11] && (
+        {textData && textData[11] && (
           <article className="w-[80vW] m-auto">
             {textData[11].show_title && (
-              <h2 className="text-2xl text-center mb-2 mt-5">
+              <h2 className="mt-5 mb-2 text-2xl text-center">
                 {textData[11].title}
               </h2>
             )}
@@ -73,11 +73,11 @@ const Contact = () => {
       </section>
       {/* text ^ */}
       {/* contact-circles v */}
-      {contactData[0] && (
+      {contactData && contactData[0] && (
         <section className="bg-[#ffc784] py-10">
           <div className="w-[80vw] grid grid-cols-1 sm:grid-cols-3 mx-auto gap-5 md:gap-20">
             <figure className="flex flex-col justify-center text-center bg-[#87d699] rounded-xs sm:rounded-full w-full aspect-square">
-              <div className="text-9xl sm:text-2xl lg:text-8xl flex justify-center">
+              <div className="flex justify-center text-9xl sm:text-2xl lg:text-8xl">
                 <BsEnvelope />
               </div>
               <div className="flex justify-center">
@@ -87,7 +87,7 @@ const Contact = () => {
               </div>
             </figure>
             <figure className="flex flex-col justify-center text-center bg-[#87d699] rounded-xs sm:rounded-full size-full w-full aspect-square">
-              <div className="text-9xl sm:text-2xl lg:text-8xl flex justify-center mb-3">
+              <div className="flex justify-center mb-3 text-9xl sm:text-2xl lg:text-8xl">
                 <BsFillGeoAltFill />
               </div>
               <div className="flex justify-center">
@@ -97,7 +97,7 @@ const Contact = () => {
               </div>
             </figure>
             <figure className="flex flex-col justify-center text-center bg-[#87d699] rounded-xs sm:rounded-full size-full w-full aspect-square">
-              <div className="text-9xl sm:text-2xl lg:text-8xl flex justify-center mb-3">
+              <div className="flex justify-center mb-3 text-9xl sm:text-2xl lg:text-8xl">
                 <BsFillTelephoneFill />
               </div>
               <div className="flex justify-center">

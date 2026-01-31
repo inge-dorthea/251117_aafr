@@ -24,7 +24,7 @@ const News = ({}) => {
   //* shown article
   const [showArticle, setShowArticle] = useState(0);
 
-  const article = data[showArticle];
+  const article = data && data[showArticle];
 
   useEffect(() => {
     if(article && article.show_article == false) setShowArticle(showArticle + 1);
@@ -49,7 +49,7 @@ const News = ({}) => {
               <section className="md:col-span-3 lg:col-span-4 bg-[#e6ffec] m-5 p-10 rounded-xs md:max-h-[90vh] md:overflow-y-scroll">
                 <article>
                   <h1 className="text-5xl">{article.headline}</h1>
-                  <p className="text-sm mt-2">
+                  <p className="mt-2 text-sm">
                     Udgivet: {article.created_at.slice(0, 10)}
                   </p>
                   {article.show_author && (
@@ -63,7 +63,7 @@ const News = ({}) => {
                         )}
                         alt={article.img_alt}
                       />
-                      <figcaption className="text-sm p-3 rounded-xs border border-gray-400">
+                      <figcaption className="p-3 text-sm border border-gray-400 rounded-xs">
                         {article.img_desc}
                       </figcaption>
                     </figure>

@@ -43,12 +43,12 @@ const Collaboration = () => {
       {/* fallback content ^ */}
       {/* lightbox v */}
       {showLightBox && (
-        <Lightbox setShowLightBox={setShowLightBox} image={item}  />
+        <Lightbox setShowLightBox={setShowLightBox} image={item} />
       )}
       {/* lightbox ^ */}
       <div>
         {/* text about collaboration v */}
-        {textData[0] && (
+        {textData && textData[0] && (
           <section className="bg-[#ffc784] py-10">
             <article className="w-[80vW] m-auto">
               {textData[0].show_title && (
@@ -65,31 +65,36 @@ const Collaboration = () => {
         )}
         {/* text about collaboration ^ */}
         {/* events they've been apart of v */}
-        <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-10 pb-10 w-[90vw] sm:w-[85vw] md:w-[80vw] lg:w-[70vw] m-auto">
-          <figure>
-            <a
-              href="https://trivselsalliancen.dk/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img
-                src="../../../../public/Trivselsalliancen-tekst-og-logo.webp"
-                alt="Trivselsalliancens logo"
-              />
-            </a>
-          </figure>
-          {eventData &&
-            eventData.map((item, index) => (
+        {eventData && (
+          <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 mt-10 pb-10 w-[90vw] sm:w-[85vw] md:w-[80vw] lg:w-[70vw] m-auto">
+            <figure>
+              <a
+                href="https://trivselsalliancen.dk/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src="../../../../public/Trivselsalliancen-tekst-og-logo.webp"
+                  alt="Trivselsalliancens logo"
+                />
+              </a>
+            </figure>
+            {eventData.map((item, index) => (
               <figure key={index}>
                 <img
-                  onClick={() => {setShowLightBox(true); setItem(item)}}
+                  onClick={() => {
+                    setShowLightBox(true);
+                    setItem(item);
+                  }}
                   src={getImage("events/" + item.id + "/" + item.img_url)}
                   alt={item.img_alt}
                   className="cursor-pointer"
                 />
               </figure>
             ))}
-        </section>
+          </section>
+        )}
+
         {/* events they've been apart of ^ */}
       </div>
     </>

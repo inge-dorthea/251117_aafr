@@ -29,7 +29,7 @@ const NewsWidget = () => {
         {loading && <Loading />}
         <section className="rounded-l-full rounded-r-xs bg-[#ffc784] pr-4 py-2 flex justify-end min-h-[230px]">
           <div className="flex justify-end sm:justify-between md:justify-end lg:justify-between w-[90%] gap-2">
-            <div className="my-auto hidden sm:block md:hidden lg:block text-8xl">
+            <div className="hidden my-auto sm:block md:hidden lg:block text-8xl">
               <BsNewspaper />
             </div>
             <div className="text-end md:w-[80%] lg:w-auto">
